@@ -1,4 +1,4 @@
-package com.laptrinhjavaweb.dto.response;
+package com.laptrinhjavaweb.model.response;
 
 public class BuildingSearchResponse {
 	private String address;

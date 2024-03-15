@@ -1,4 +1,4 @@
-package com.laptrinhjavaweb.dto;
+package com.laptrinhjavaweb.model.dto;
 
 public class UserDTO {
 	private Long id;

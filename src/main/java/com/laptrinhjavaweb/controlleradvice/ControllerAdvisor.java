@@ -1,4 +1,4 @@
-package com.laptrinhjavaweb;
+package com.laptrinhjavaweb.controlleradvice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +11,13 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.laptrinhjavaweb.customexception.FieldRequireException;
-import com.laptrinhjavaweb.dto.ErrorResponseBean;
+import com.laptrinhjavaweb.model.dto.ErrorResponseDTO;
 
 @ControllerAdvice
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(ArithmeticException.class)
-	public ResponseEntity<ErrorResponseBean> handleArithemticException(ArithmeticException ex, WebRequest request){
-		ErrorResponseBean result = new ErrorResponseBean();
+	public ResponseEntity<ErrorResponseDTO> handleArithemticException(ArithmeticException ex, WebRequest request){
+		ErrorResponseDTO result = new ErrorResponseDTO();
 		result.setError(ex.getMessage());
 		List<String> details = new ArrayList<>();
 		details.add("10 sao chia het cho 0?");
@@ -25,8 +25,8 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	@ExceptionHandler(FieldRequireException.class)
-	public ResponseEntity<ErrorResponseBean> handleFieldRequireException(FieldRequireException ex, WebRequest request){
-		ErrorResponseBean result = new ErrorResponseBean();
+	public ResponseEntity<ErrorResponseDTO> handleFieldRequireException(FieldRequireException ex, WebRequest request){
+		ErrorResponseDTO result = new ErrorResponseDTO();
 		result.setError(ex.getMessage());
 		List<String> details = new ArrayList<>();
 		result.setDetails(details);

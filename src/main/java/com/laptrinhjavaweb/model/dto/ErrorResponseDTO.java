@@ -1,9 +1,9 @@
-package com.laptrinhjavaweb.dto;
+package com.laptrinhjavaweb.model.dto;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ErrorResponseBean {
+public class ErrorResponseDTO {
 	private String error;
 	private List<String> details = new ArrayList<>();
 	public String getError() {

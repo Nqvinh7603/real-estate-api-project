@@ -1,4 +1,4 @@
-package com.laptrinhjavaweb.dto.request;
+package com.laptrinhjavaweb.model.request;
 
 import java.util.ArrayList;
 import java.util.List;

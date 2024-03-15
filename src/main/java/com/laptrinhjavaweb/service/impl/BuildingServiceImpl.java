@@ -6,8 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.laptrinhjavaweb.dto.response.BuildingSearchResponse;
-
+import com.laptrinhjavaweb.model.response.BuildingSearchResponse;
 import com.laptrinhjavaweb.repository.BuildingRepository;
 import com.laptrinhjavaweb.repository.enity.BuildingEntity;
 import com.laptrinhjavaweb.service.BuildingService;

@@ -2,9 +2,7 @@ package com.laptrinhjavaweb.service;
 
 import java.util.List;
 
-import com.laptrinhjavaweb.dto.response.BuildingSearchResponse;
-
-import com.laptrinhjavaweb.repository.enity.BuildingEntity;
+import com.laptrinhjavaweb.model.response.BuildingSearchResponse;
 
 public interface BuildingService {
 	List<BuildingSearchResponse> findAll();
