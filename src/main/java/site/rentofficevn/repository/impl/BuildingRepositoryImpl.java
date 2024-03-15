@@ -14,13 +14,13 @@ import site.rentofficevn.utils.StringUtils;
 public class BuildingRepositoryImpl extends JdbcRepositoryImpl<BuildingEntity> implements BuildingRepository {
 
     @Override
-    public List<BuildingEntity> findBuilding(Map<String, Object> buildingSearch, List<String> buildingSearchType) {
+    public List<BuildingEntity> findBuilding(Map<String, String> buildingSearch, List<String> buildingSearchType) {
         StringBuilder finalQuery = new StringBuilder();
         StringBuilder joinQuery = new StringBuilder();
         StringBuilder whereQuery = new StringBuilder();
 
         finalQuery.append(
-                "SELECT b.id, b.name, b.street, b.ward, b.districtid, b.managername, b.managerphone, b.floorArea, b.rentPrice, b.rentPriceDescription, b.serviceFee, b.brokerageFee")
+                "SELECT b.id, b.name, b.street, b.ward, b.districtid, b.managername, b.managerphone, b.floorarea, b.rentprice, b.rentpriceDescription, b.servicefee, b.brokeragefee")
                 .append("\nFrom building b");
 
         buildJoinQuery(buildingSearch, buildingSearchType, whereQuery, joinQuery);
@@ -33,24 +33,23 @@ public class BuildingRepositoryImpl extends JdbcRepositoryImpl<BuildingEntity> i
         return findByCondition(finalQuery.toString());
     }
 
-    private void buildJoinQuery(Map<String, Object> buildingSearch, List<String> buildingSearchType,
+    private void buildJoinQuery(Map<String, String> buildingSearch, List<String> buildingSearchType,
             StringBuilder whereQuery, StringBuilder joinQuery) {
-        String rentAreaFrom = (String) buildingSearch.get("rentAreaFrom");
-
-        String rentAreaTo = (String) buildingSearch.get("rentAreaTo");
-        String staffId = (String) buildingSearch.get("staffId");
-        String districtCode = (String) buildingSearch.get("districtCode");
-        if (rentAreaFrom != null || rentAreaTo != null) {
+        String rentAreaFrom = buildingSearch.get("rentAreaFrom");
+        String rentAreaTo = buildingSearch.get("rentAreaTo");
+        String staffId = buildingSearch.get("staffId");
+        String districtCode = buildingSearch.get("districtCode");
+        if (!StringUtils.isNullOrEmpty(rentAreaFrom) || !StringUtils.isNullOrEmpty(rentAreaTo)) {
             joinQuery.append(" INNER JOIN rentarea as ra ON ra.buildingid = b.id");
-            if (rentAreaFrom != null) {
+            if (!StringUtils.isNullOrEmpty(rentAreaFrom)) {
                 whereQuery.append(" AND ra.value >= " + rentAreaFrom);
             }
-            if (rentAreaTo != null) {
+            if (!StringUtils.isNullOrEmpty(rentAreaTo)) {
                 whereQuery.append(" AND ra.value <= " + rentAreaTo);
             }
         }
 
-        if (staffId != null) {
+        if (!StringUtils.isNullOrEmpty(staffId)) {
             joinQuery.append(
                     " INNER JOIN assignmentbuilding as ab ON ab.buildingid = b.id INNER JOIN user as u ON ab.staffid = u.id");
             whereQuery.append(" AND u.id = " + staffId);
@@ -74,18 +73,18 @@ public class BuildingRepositoryImpl extends JdbcRepositoryImpl<BuildingEntity> i
         }
     }
 
-    private void buildNormalQuery(Map<String, Object> buildingSearch, StringBuilder whereQuery) {
-        String name = (String) buildingSearch.get("name");
-        String street = (String) buildingSearch.get("street");
-        String ward = (String) buildingSearch.get("ward");
-        Integer floorArea = (Integer) buildingSearch.get("floorArea");
-        Integer numberOfBasement = (Integer) buildingSearch.get("numberOfBasement");
-        String direction = (String) buildingSearch.get("direction");
-        String level = (String) buildingSearch.get("level");
-        String managerName = (String) buildingSearch.get("managerName");
-        String managerPhone = (String) buildingSearch.get("managerPhone");
-        Long rentPriceFrom = (Long) buildingSearch.get("rentPriceFrom");
-        Long rentPriceTo = (Long) buildingSearch.get("rentPriceTo");
+    private void buildNormalQuery(Map<String, String> buildingSearch, StringBuilder whereQuery) {
+        String name =  buildingSearch.get("name");
+        String street = buildingSearch.get("street");
+        String ward = buildingSearch.get("ward");
+        String floorArea = buildingSearch.get("floorArea");
+        String numberOfBasement = buildingSearch.get("numberOfBasement");
+        String direction = buildingSearch.get("direction");
+        String level = buildingSearch.get("level");
+        String managerName = buildingSearch.get("managerName");
+        String managerPhone = buildingSearch.get("managerPhone");
+        String rentPriceFrom = buildingSearch.get("rentPriceFrom");
+        String rentPriceTo = buildingSearch.get("rentPriceTo");
         if (!StringUtils.isNullOrEmpty(name)) {
             whereQuery.append(" AND name LIKE '%" + name + "%'");
         }
@@ -95,10 +94,10 @@ public class BuildingRepositoryImpl extends JdbcRepositoryImpl<BuildingEntity> i
         if (!StringUtils.isNullOrEmpty(ward)) {
             whereQuery.append(" AND ward LIKE '%" + ward + "%'");
         }
-        if (floorArea != null) {
+        if (!StringUtils.isNullOrEmpty(floorArea)) {
             whereQuery.append(" AND floorArea = " + floorArea);
         }
-        if (numberOfBasement != null) {
+        if (!StringUtils.isNullOrEmpty(numberOfBasement)) {
             whereQuery.append(" AND numberofbasement = " + numberOfBasement);
         }
         if (!StringUtils.isNullOrEmpty(direction)) {
@@ -113,10 +112,10 @@ public class BuildingRepositoryImpl extends JdbcRepositoryImpl<BuildingEntity> i
         if (!StringUtils.isNullOrEmpty(managerPhone)) {
             whereQuery.append(" AND managerphone LIKE '%" + managerPhone + "%'");
         }
-        if (rentPriceFrom != null) {
+        if (!StringUtils.isNullOrEmpty(rentPriceFrom)) {
             whereQuery.append(" AND b.rentPrice >= " + rentPriceFrom);
         }
-        if (rentPriceTo != null) {
+        if (!StringUtils.isNullOrEmpty(rentPriceTo)) {
             whereQuery.append(" AND b.rentPrice <= " + rentPriceTo);
         }
 

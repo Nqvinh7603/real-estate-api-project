@@ -31,9 +31,9 @@ public class BuildingAPI {
 
 	// excercise-2
 	@GetMapping
-	public List<BuildingSearchResponse> findBuilding(@RequestParam(required = false) Map<String, Object> buildingSearch,
-			@RequestParam(required = false) List<String> buildingSearchType) throws SQLException {
+	public List<BuildingSearchResponse> findBuilding(@RequestParam(required = false) Map<String, String> buildingSearch,
+			@RequestParam(required = false) List<String> buildingTypes) throws SQLException {
 
-		return buildingService.getBuildingList(buildingSearch, buildingSearchType);
+		return buildingService.getBuildingList(buildingSearch, buildingTypes);
 	}
 }

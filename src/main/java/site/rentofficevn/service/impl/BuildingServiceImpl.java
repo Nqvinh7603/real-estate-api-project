@@ -21,7 +21,7 @@ public class BuildingServiceImpl implements BuildingService {
 	private BuildingConverter buildingConverter = new BuildingConverter();
 
 	@Override
-	public List<BuildingSearchResponse> getBuildingList(Map<String, Object> buildingSearch,
+	public List<BuildingSearchResponse> getBuildingList(Map<String, String> buildingSearch,
 			List<String> buildingSearchTypes) {
 		List<BuildingSearchResponse> results = new ArrayList<>();
 		List<BuildingEntity> buildingEntity = buildingRespository.findBuilding(buildingSearch, buildingSearchTypes);
