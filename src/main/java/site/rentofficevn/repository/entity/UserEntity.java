@@ -1,4 +1,4 @@
-package site.rentofficevn.repository.enity;
+package site.rentofficevn.repository.entity;
 
 import site.rentofficevn.annotation.Column;
 import site.rentofficevn.annotation.Entity;

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import site.rentofficevn.model.dto.BuildingDTO;
+import site.rentofficevn.model.request.BuildingSearchRequest;
 import site.rentofficevn.model.response.BuildingSearchResponse;
 import site.rentofficevn.service.BuildingService;
 

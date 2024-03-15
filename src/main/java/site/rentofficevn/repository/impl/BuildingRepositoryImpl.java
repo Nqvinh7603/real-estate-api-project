@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import site.rentofficevn.repository.BuildingRepository;
-import site.rentofficevn.repository.enity.BuildingEntity;
+import site.rentofficevn.repository.entity.BuildingEntity;
 import site.rentofficevn.utils.StringUtils;
 
 

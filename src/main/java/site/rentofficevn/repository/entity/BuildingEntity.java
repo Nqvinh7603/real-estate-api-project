@@ -1,4 +1,4 @@
-package site.rentofficevn.repository.enity;
+package site.rentofficevn.repository.entity;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
