@@ -1,7 +1,6 @@
 package com.laptrinhjavaweb.model.dto;
 
-public class BuildingDTO {
-	private Long id;
+public class BuildingDTO extends BaseDTO{
 	private String name;
 	private Integer floorArea;
 	private Long[] buildingIds;
@@ -11,12 +10,6 @@ public class BuildingDTO {
 	}
 	public void setBuildingIds(Long[] buildingIds) {
 		this.buildingIds = buildingIds;
-	}
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
 	}
 	public String getName() {
 		return name;
