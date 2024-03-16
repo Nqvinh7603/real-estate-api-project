@@ -1,4 +1,4 @@
-package com.laptrinhjavaweb;
+package site.rentofficevn;
 
 import org.springframework.boot.SpringApplication;
 
