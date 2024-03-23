@@ -6,5 +6,5 @@ import java.util.Map;
 import site.rentofficevn.repository.entity.BuildingEntity;
 
 public interface BuildingRepository {
-	List<BuildingEntity> findBuilding(Map<String, String> buildingSearch, List<String> buildingTypes);
+	List<BuildingEntity> findBuilding(Map<String, Object> buildingSearch, List<String> buildingTypes);
 }

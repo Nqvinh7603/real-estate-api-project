@@ -14,7 +14,7 @@ import site.rentofficevn.utils.StringUtils;
 public class BuildingRepositoryImpl extends JdbcRepositoryImpl<BuildingEntity> implements BuildingRepository {
 
     @Override
-    public List<BuildingEntity> findBuilding(Map<String, String> buildingSearch, List<String> buildingSearchType) {
+    public List<BuildingEntity> findBuilding(Map<String, Object> buildingSearch, List<String> buildingSearchType) {
         StringBuilder finalQuery = new StringBuilder();
         StringBuilder joinQuery = new StringBuilder();
         StringBuilder whereQuery = new StringBuilder();
@@ -33,12 +33,12 @@ public class BuildingRepositoryImpl extends JdbcRepositoryImpl<BuildingEntity> i
         return findByCondition(finalQuery.toString());
     }
 
-    private void buildJoinQuery(Map<String, String> buildingSearch, List<String> buildingSearchType,
+    private void buildJoinQuery(Map<String, Object> buildingSearch, List<String> buildingSearchType,
             StringBuilder whereQuery, StringBuilder joinQuery) {
-        String rentAreaFrom = buildingSearch.get("rentAreaFrom");
-        String rentAreaTo = buildingSearch.get("rentAreaTo");
-        String staffId = buildingSearch.get("staffId");
-        String districtCode = buildingSearch.get("districtCode");
+        String rentAreaFrom = (String) buildingSearch.get("rentAreaFrom");
+        String rentAreaTo = (String) buildingSearch.get("rentAreaTo");
+        String staffId = (String) buildingSearch.get("staffId");
+        String districtCode = (String) buildingSearch.get("districtCode");
         if (!StringUtils.isNullOrEmpty(rentAreaFrom) || !StringUtils.isNullOrEmpty(rentAreaTo)) {
             joinQuery.append(" INNER JOIN rentarea as ra ON ra.buildingid = b.id");
             if (!StringUtils.isNullOrEmpty(rentAreaFrom)) {
@@ -73,18 +73,18 @@ public class BuildingRepositoryImpl extends JdbcRepositoryImpl<BuildingEntity> i
         }
     }
 
-    private void buildNormalQuery(Map<String, String> buildingSearch, StringBuilder whereQuery) {
-        String name =  buildingSearch.get("name");
-        String street = buildingSearch.get("street");
-        String ward = buildingSearch.get("ward");
-        String floorArea = buildingSearch.get("floorArea");
-        String numberOfBasement = buildingSearch.get("numberOfBasement");
-        String direction = buildingSearch.get("direction");
-        String level = buildingSearch.get("level");
-        String managerName = buildingSearch.get("managerName");
-        String managerPhone = buildingSearch.get("managerPhone");
-        String rentPriceFrom = buildingSearch.get("rentPriceFrom");
-        String rentPriceTo = buildingSearch.get("rentPriceTo");
+    private void buildNormalQuery(Map<String, Object> buildingSearch, StringBuilder whereQuery) {
+        String name =  (String) buildingSearch.get("name");
+        String street = (String) buildingSearch.get("street");
+        String ward = (String) buildingSearch.get("ward");
+        String floorArea = (String) buildingSearch.get("floorArea");
+        String numberOfBasement = (String) buildingSearch.get("numberOfBasement");
+        String direction = (String) buildingSearch.get("direction");
+        String level = (String) buildingSearch.get("level");
+        String managerName = (String) buildingSearch.get("managerName");
+        String managerPhone = (String) buildingSearch.get("managerPhone");
+        String rentPriceFrom = (String) buildingSearch.get("rentPriceFrom");
+        String rentPriceTo = (String) buildingSearch.get("rentPriceTo");
         if (!StringUtils.isNullOrEmpty(name)) {
             whereQuery.append(" AND name LIKE '%" + name + "%'");
         }
