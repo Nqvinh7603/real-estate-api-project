@@ -20,13 +20,11 @@ import site.rentofficevn.service.BuildingService;
 
 @RestController
 @RequestMapping("/api/building")
-@PropertySource("classpath:application.properties")
+
 public class BuildingAPI {
 	@Autowired
 	private BuildingService buildingService;
 
-	@Value("${anh.yeu.em}")
-	private String anhYeuEm;
 	// Lấy chi tiết tòa nhà
 	@GetMapping("/{buildingid}")
 	public BuildingDTO getBuildingDetail(@PathVariable(value = "buildingid") Long buildingId) {
@@ -38,7 +36,6 @@ public class BuildingAPI {
 	@GetMapping
 	public List<BuildingSearchResponse> findBuilding(@RequestParam(required = false) Map<String, String> buildingSearch,
 			@RequestParam(required = false) List<String> buildingTypes) throws SQLException {
-		System.out.print(anhYeuEm);
 		return buildingService.getBuildingList(buildingSearch, buildingTypes);
 	}
 }

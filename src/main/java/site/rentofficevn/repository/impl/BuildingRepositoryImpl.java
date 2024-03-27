@@ -3,6 +3,8 @@ package site.rentofficevn.repository.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
 
 import site.rentofficevn.repository.BuildingRepository;
@@ -11,8 +13,12 @@ import site.rentofficevn.utils.StringUtils;
 
 
 @Repository
+@PropertySource("classpath:application.properties")
 public class BuildingRepositoryImpl extends JdbcRepositoryImpl<BuildingEntity> implements BuildingRepository {
-
+	@Value("${anh.yeu.em}")
+	private String dbUrl;
+	
+	
     @Override
     public List<BuildingEntity> findBuilding(Map<String, String> buildingSearch, List<String> buildingSearchType) {
         StringBuilder finalQuery = new StringBuilder();
