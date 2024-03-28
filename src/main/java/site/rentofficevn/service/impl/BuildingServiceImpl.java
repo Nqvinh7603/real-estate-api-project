@@ -25,10 +25,10 @@ public class BuildingServiceImpl implements BuildingService {
 			List<String> buildingSearchTypes) {
 		List<BuildingSearchResponse> results = new ArrayList<>();
 		List<BuildingEntity> buildingEntity = buildingRespository.findBuilding(buildingSearch, buildingSearchTypes);
-		for (BuildingEntity item : buildingEntity) {
+		/*for (BuildingEntity item : buildingEntity) {
 			BuildingSearchResponse buildingSearchResponse = buildingConverter.convertFromEntitytoBuildingSearchResponse(item);
 			results.add(buildingSearchResponse);
-		}
+		}*/
 		return results;
 	}
 
