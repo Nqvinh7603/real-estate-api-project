@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import site.rentofficevn.constant.SystemConstant;
 import site.rentofficevn.repository.BuildingRepository;
 import site.rentofficevn.repository.entity.BuildingEntity;
+import site.rentofficevn.utils.MapUtils;
 import site.rentofficevn.utils.StringUtils;
 
 @Repository
@@ -13,11 +14,11 @@ public class BuildingRepositoryImpl	 extends JdbcRepositoryImpl<BuildingEntity> 
 
 	@Override
 	public List<BuildingEntity> findBuilding(Map<String, Object> buildingSearch, List<String> buildingTypes) {
-		String name = buildingSearch.containsKey("name") ? buildingSearch.get("name").toString() : null;
+		String name = MapUtils.getObject(buildingSearch, "name", String.class);
 		System.out.println(name);
-		Long staffId = buildingSearch.containsKey("staffid") ? (buildingSearch.get("staffid") != "" ? Long.parseLong(buildingSearch.get("staffid").toString()) : null) : null ;
+		Long staffId = MapUtils.getObject(buildingSearch, "staffid", Long.class);
 		System.out.println(staffId);
-		Integer numberOfBasement = buildingSearch.containsKey("numberofbasement") ? (buildingSearch.get("numberofbasement") != "" ? Integer.parseInt(buildingSearch.get("numberofbasement").toString()) : null) : null ;
+		Integer numberOfBasement = MapUtils.getObject(buildingSearch, "numberofbasement", Integer.class);
 		System.out.println(numberOfBasement);
 		//String query = "select * from building " + SystemConstant.WHERE_ONE_EQUAL_ONE;
 		return null;
