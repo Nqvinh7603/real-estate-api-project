@@ -9,15 +9,15 @@ import site.rentofficevn.repository.entity.BuildingEntity;
 import site.rentofficevn.utils.StringUtils;
 
 @Repository
-public class BuildingRepositoryImpl extends JdbcRepositoryImpl<BuildingEntity> implements BuildingRepository {
+public class BuildingRepositoryImpl	 extends JdbcRepositoryImpl<BuildingEntity> implements BuildingRepository {
 
 	@Override
 	public List<BuildingEntity> findBuilding(Map<String, Object> buildingSearch, List<String> buildingTypes) {
-		String name = buildingSearch.get("name").toString();
+		String name = buildingSearch.containsKey("name") ? buildingSearch.get("name").toString() : null;
 		System.out.println(name);
-		Long staffId = Long.parseLong(buildingSearch.get("staffid").toString());
+		Long staffId = buildingSearch.containsKey("staffid") ? (buildingSearch.get("staffid") != "" ? Long.parseLong(buildingSearch.get("staffid").toString()) : null) : null ;
 		System.out.println(staffId);
-		Integer numberOfBasement = Integer.parseInt(buildingSearch.get("numberofbasement").toString());
+		Integer numberOfBasement = buildingSearch.containsKey("numberofbasement") ? (buildingSearch.get("numberofbasement") != "" ? Integer.parseInt(buildingSearch.get("numberofbasement").toString()) : null) : null ;
 		System.out.println(numberOfBasement);
 		//String query = "select * from building " + SystemConstant.WHERE_ONE_EQUAL_ONE;
 		return null;
