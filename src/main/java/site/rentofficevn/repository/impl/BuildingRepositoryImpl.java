@@ -8,7 +8,6 @@ import site.rentofficevn.repository.BuildingRepository;
 import site.rentofficevn.repository.entity.BuildingEntity;
 import site.rentofficevn.utils.CheckInputSearchUtils;
 import site.rentofficevn.utils.MapUtils;
-import site.rentofficevn.utils.StringUtils;
 
 @Repository
 public class BuildingRepositoryImpl	 extends JdbcRepositoryImpl<BuildingEntity> implements BuildingRepository {
