@@ -14,4 +14,9 @@ Especially, in this project, I have utilized tools such as Generic, Reflection, 
 - Search by rental area: search by value or search by array [100,200]
 - .....
 
+## Search functionality has been updated with additional methods
+1. Original pure code
+- Runnable, lengthy code, not optimized
+2. Apply Map
+- Runs well, more optimized code, builds MapUtils function, uses Jdbc so the amount of code is still large
 ### Updating...
