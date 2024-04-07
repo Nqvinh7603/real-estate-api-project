@@ -90,7 +90,6 @@ public class BuildingRepositoryImpl	 extends JdbcRepositoryImpl<BuildingEntity> 
 			whereQuery.append(" AND b.managerphone LIKE '%").append(managerPhone).append("%'");
 		}
 
-
 		return whereQuery;
 	}
 }
