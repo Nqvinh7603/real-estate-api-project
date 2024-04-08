@@ -19,23 +19,26 @@ public class BuildingRepositoryImpl	 extends JdbcRepositoryImpl<BuildingEntity> 
 		StringBuilder whereQuery = new StringBuilder();
 		finalQuery.append(
 						"SELECT b.id, b.name, b.street, b.ward, b.districtid, b.managername, b.managerphone, b.floorarea, b.rentprice, b.rentpriceDescription, b.servicefee, b.brokeragefee")
-				.append("\nFrom building b").append(buildSqlJoin(buildingSearch, buildingTypes, joinQuery)).append(SystemConstant.WHERE_ONE_EQUAL_ONE);
+				.append("\nFrom building b")
+				.append(buildSqlJoin(buildingSearch, buildingTypes, joinQuery))
+				.append(SystemConstant.WHERE_ONE_EQUAL_ONE).append(buildSqlWhereClause(buildingSearch, buildingTypes, whereQuery))
+				.append(" GROUP BY b.id");
 
-		return null;
+		return findByCondition(finalQuery.toString());
 	}
 	private StringBuilder buildSqlJoin(Map<String, Object> buildingSearch, List<String> buildingTypes, StringBuilder joinQuery
 	){
-		Long staffId = MapUtils.getObject(buildingSearch, "staffId", Long.class);
-		String districtCode = MapUtils.getObject(buildingSearch, "districtCode", String.class);
+		Long staffId = MapUtils.getObject(buildingSearch, "staffid", Long.class);
+		String districtCode = MapUtils.getObject(buildingSearch, "districtcode", String.class);
 		if(!CheckInputSearchUtils.numIsNullLong(staffId)){
-			joinQuery.append(" INNER JOIN assignmentbuilding as ab ON ab.buildingid = b.id INNER JOIN user as u ON ab.staffid = u.id ");
+			joinQuery.append(" INNER JOIN assignmentbuilding as ab ON ab.buildingid = b.id INNER JOIN user as u ON ab.staffid = u.id");
 		}
 		if(!CheckInputSearchUtils.strIsNullOrEmpty(districtCode)){
 			joinQuery.append(" INNER JOIN district d ON d.id = b.districtid");
 		}
 		if(buildingTypes != null && !buildingTypes.isEmpty()){
 			joinQuery.append(
-					" INNER JOIN buildingrenttype as br ON br.buildingid = b.id INNER JOIN renttype as r ON br.renttypeid = r.id ");
+					" INNER JOIN buildingrenttype as br ON br.buildingid = b.id INNER JOIN renttype as r ON br.renttypeid = r.id");
 		}
 		return joinQuery;
 	}
@@ -90,6 +93,22 @@ public class BuildingRepositoryImpl	 extends JdbcRepositoryImpl<BuildingEntity> 
 			whereQuery.append(" AND b.managerphone LIKE '%").append(managerPhone).append("%'");
 		}
 
+		Integer rentPriceFrom = MapUtils.getObject(buildingSearch, "rentpricefrom", Integer.class);
+		if(!CheckInputSearchUtils.numIsNullInt(rentPriceFrom)){
+			whereQuery.append(" AND b.rentprice >= ").append(rentPriceFrom);
+		}
+		Integer rentPriceTo = MapUtils.getObject(buildingSearch, "rentpriceto", Integer.class);
+		if(!CheckInputSearchUtils.numIsNullInt(rentPriceTo)){
+			whereQuery.append(" AND b.rentprice <= ").append(rentPriceTo);
+		}
+		Integer rentAreaFrom = MapUtils.getObject(buildingSearch, "rentareafrom", Integer.class);
+		if(!CheckInputSearchUtils.numIsNullInt(rentAreaFrom)){
+			whereQuery.append(" AND b.rentarea >= ").append(rentAreaFrom);
+		}
+		Integer rentAreaTo = MapUtils.getObject(buildingSearch, "rentareato", Integer.class);
+		if(!CheckInputSearchUtils.numIsNullInt(rentAreaTo)){
+			whereQuery.append(" AND b.rentarea <= ").append(rentAreaTo);
+		}
 		return whereQuery;
 	}
 }

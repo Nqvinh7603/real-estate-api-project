@@ -1,13 +1,13 @@
 package site.rentofficevn.converter;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.apache.commons.lang3.StringUtils;
+
 import site.rentofficevn.model.dto.BuildingDTO;
 import site.rentofficevn.model.response.BuildingSearchResponse;
 import site.rentofficevn.repository.DistrictRepository;
@@ -24,7 +24,7 @@ public class BuildingConverter {
 	@Autowired
 	private ModelMapper modelMapper;
 	@Autowired
-	DistrictRepository districtRepository;
+	DistrictRepository districtRepository ;
 	@Autowired
 	RentAreaRepository rentAreaRepository;
 
@@ -52,7 +52,6 @@ public class BuildingConverter {
 				.map(rentAreaEntity -> String.valueOf(rentAreaEntity.getValue())).collect(Collectors.joining(", "));
 		buildingSearchResponse.setEmptyArea(rentAreaString);
 
-		return buildingSearchResponse;
 
 		// Cach 2: Dùng StringUtils
 		/*List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findByBuildingId(buildingEntity.getId());
@@ -64,6 +63,7 @@ public class BuildingConverter {
 		}
 		buildingSearchResponse.setEmptyArea(rentAreaString);
 		*/
+		return buildingSearchResponse;
 	}
 
 	//Áp dụng cách sử dụng ModelMapper để convert

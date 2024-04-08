@@ -23,13 +23,17 @@ site\rentofficevn\repository\BuildingRepository.class
 site\rentofficevn\api\BuildingAPI.class
 site\rentofficevn\repository\impl\BuildingRepositoryImpl.class
 site\rentofficevn\customexception\FieldRequireException.class
+site\rentofficevn\utils\MapUtils.class
 site\rentofficevn\model\dto\UserDTO.class
 site\rentofficevn\Application.class
 site\rentofficevn\model\request\BuildingSearchRequest.class
 site\rentofficevn\repository\impl\DistrictRepositoryImpl.class
 site\rentofficevn\annotation\Table.class
+site\rentofficevn\config\ModelMapperConfig.class
 site\rentofficevn\controlleradvice\ControllerAdvisor.class
 site\rentofficevn\model\request\AssignmentBuildingRequest.class
 site\rentofficevn\repository\RentAreaRepository.class
 site\rentofficevn\repository\impl\JdbcRepositoryImpl.class
 site\rentofficevn\utils\ConnectionUtils.class
+site\rentofficevn\utils\CheckInputSearchUtils.class
+site\rentofficevn\utils\NumberUtils.class
