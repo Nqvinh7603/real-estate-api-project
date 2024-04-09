@@ -12,11 +12,11 @@ public class BuildingSearchResponse {
 	private String serviceFee; // phí dịch vụ
 	private BigDecimal brokerageFee;// phí môi giới
 	private Integer numberOfBasement;
-	private Date createdDate;
+	/*private Date createdDate;
 	private Date modifiedDate;
 	private String createdBy;
-	private String modifiedBy;
-	private String rentArea; // đẩy ra dạng value1,value2
+	private String modifiedBy;*/
+	/*private String rentArea; // đẩy ra dạng value1,value2*/
 	private String managerName;
 	private String managerPhone;
 
@@ -36,13 +36,13 @@ public class BuildingSearchResponse {
 		this.managerPhone = managerPhone;
 	}
 
-	public String getRentArea() {
+	/*public String getRentArea() {
 		return rentArea;
 	}
 
 	public void setRentArea(String rentArea) {
 		this.rentArea = rentArea;
-	}
+	}*/
 
 	public String getName() {
 		return name;
@@ -100,7 +100,7 @@ public class BuildingSearchResponse {
 		this.brokerageFee = brokerageFee;
 	}
 
-	public Date getCreatedDate() {
+	/*public Date getCreatedDate() {
 		return createdDate;
 	}
 
@@ -131,7 +131,7 @@ public class BuildingSearchResponse {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-
+*/
 	public Integer getNumberOfBasement() {
 		return numberOfBasement;
 	}

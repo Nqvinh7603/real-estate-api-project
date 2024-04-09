@@ -2,123 +2,129 @@ package site.rentofficevn.repository.impl;
 
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.stereotype.Repository;
-
+import site.rentofficevn.constant.SystemConstant;
 import site.rentofficevn.repository.BuildingRepository;
 import site.rentofficevn.repository.entity.BuildingEntity;
-import site.rentofficevn.utils.StringUtils;
-
+import site.rentofficevn.utils.CheckInputSearchUtils;
+import site.rentofficevn.utils.MapUtils;
 
 @Repository
-public class BuildingRepositoryImpl extends JdbcRepositoryImpl<BuildingEntity> implements BuildingRepository {
+public class BuildingRepositoryImpl	 extends JdbcRepositoryImpl<BuildingEntity> implements BuildingRepository {
 
-    @Override
-    public List<BuildingEntity> findBuilding(Map<String, String> buildingSearch, List<String> buildingSearchType) {
-        StringBuilder finalQuery = new StringBuilder();
-        StringBuilder joinQuery = new StringBuilder();
-        StringBuilder whereQuery = new StringBuilder();
+	@Override
+	public List<BuildingEntity> findBuilding(Map<String, Object> buildingSearch, List<String> buildingTypes) {
+		StringBuilder finalQuery = new StringBuilder("SELECT b.id, b.name, b.street, b.ward, b.districtid, b.managername, b.managerphone, b.floorarea, b.rentprice, b.rentpriceDescription, b.servicefee, b.brokeragefee from building b\n");
+		StringBuilder joinQuery = new StringBuilder();
+		StringBuilder whereQuery = new StringBuilder(SystemConstant.WHERE_ONE_EQUAL_ONE);
+		buildSqlJoin(buildingSearch, buildingTypes, joinQuery);
+		buildSqlWhereClause(buildingSearch, buildingTypes, whereQuery);
+		finalQuery.append(joinQuery)
+				.append(whereQuery)
+				.append(" GROUP BY b.id");
+		return findByCondition(finalQuery.toString());
+	}
+	private void buildSqlJoin(Map<String, Object> buildingSearch, List<String> buildingTypes, StringBuilder joinQuery
+	){
+		Long staffId = MapUtils.getObject(buildingSearch, "staffid", Long.class);
+		String districtCode = MapUtils.getObject(buildingSearch, "districtcode", String.class);
+		Integer rentAreaFrom = MapUtils.getObject(buildingSearch, "rentareafrom", Integer.class);
+		Integer rentAreaTo = MapUtils.getObject(buildingSearch, "rentareato", Integer.class);
 
-        finalQuery.append(
-                "SELECT b.id, b.name, b.street, b.ward, b.districtid, b.managername, b.managerphone, b.floorarea, b.rentprice, b.rentpriceDescription, b.servicefee, b.brokeragefee")
-                .append("\nFrom building b");
+		if(!CheckInputSearchUtils.isNullLong(staffId)){
+			joinQuery.append(" INNER JOIN assignmentbuilding as ab ON ab.buildingid = b.id INNER JOIN user as u ON ab.staffid = u.id");
+		}
 
-        buildJoinQuery(buildingSearch, buildingSearchType, whereQuery, joinQuery);
-        buildNormalQuery(buildingSearch, whereQuery);
+		if(!CheckInputSearchUtils.isEmptyOrNullString(districtCode)){
+			joinQuery.append(" INNER JOIN district d ON d.id = b.districtid");
+		}
+		if(buildingTypes != null && !buildingTypes.isEmpty()){
+			joinQuery.append(
+					" INNER JOIN buildingrenttype as br ON br.buildingid = b.id INNER JOIN renttype as r ON br.renttypeid = r.id");
+		}
 
-        finalQuery.append(joinQuery)
-                .append(" WHERE 1 = 1")
-                .append(whereQuery)
-                .append("\n group by b.id");
-        return findByCondition(finalQuery.toString());
-    }
+		if(!CheckInputSearchUtils.isNullInteger(rentAreaFrom) || !CheckInputSearchUtils.isNullInteger(rentAreaTo)){
+			joinQuery.append(" INNER JOIN rentarea as ra ON ra.buildingid = b.id");
+		}
 
-    private void buildJoinQuery(Map<String, String> buildingSearch, List<String> buildingSearchType,
-            StringBuilder whereQuery, StringBuilder joinQuery) {
-        String rentAreaFrom = buildingSearch.get("rentAreaFrom");
-        String rentAreaTo = buildingSearch.get("rentAreaTo");
-        String staffId = buildingSearch.get("staffId");
-        String districtCode = buildingSearch.get("districtCode");
-        if (!StringUtils.isNullOrEmpty(rentAreaFrom) || !StringUtils.isNullOrEmpty(rentAreaTo)) {
-            joinQuery.append(" INNER JOIN rentarea as ra ON ra.buildingid = b.id");
-            if (!StringUtils.isNullOrEmpty(rentAreaFrom)) {
-                whereQuery.append(" AND ra.value >= " + rentAreaFrom);
-            }
-            if (!StringUtils.isNullOrEmpty(rentAreaTo)) {
-                whereQuery.append(" AND ra.value <= " + rentAreaTo);
-            }
-        }
+	}
+	private void buildSqlWhereClause(Map<String,Object> buildingSearch, List<String> buildingTypes, StringBuilder whereQuery){
+		String name = MapUtils.getObject(buildingSearch, "name", String.class);
+		if(!CheckInputSearchUtils.isEmptyOrNullString(name)){
+			whereQuery.append(" AND b.name LIKE '%").append(name).append("%'");
+		}
 
-        if (!StringUtils.isNullOrEmpty(staffId)) {
-            joinQuery.append(
-                    " INNER JOIN assignmentbuilding as ab ON ab.buildingid = b.id INNER JOIN user as u ON ab.staffid = u.id");
-            whereQuery.append(" AND u.id = " + staffId);
-        }
-        if (buildingSearchType != null && !buildingSearchType.isEmpty()) {
-            joinQuery.append(
-                    " INNER JOIN buildingrenttype as br ON br.buildingid = b.id INNER JOIN renttype as r ON br.renttypeid = r.id");
-            whereQuery.append(" AND (");
-            for (int i = 0; i < buildingSearchType.size(); i++) {
-                if (i > 0) {
-                    whereQuery.append(" OR ");
-                }
-                whereQuery.append("r.code LIKE '%" + buildingSearchType.get(i) + "%'");
-            }
-            whereQuery.append(")");
-        }
+		String street = MapUtils.getObject(buildingSearch, "street", String.class);
+		if(!CheckInputSearchUtils.isEmptyOrNullString(street)){
+			whereQuery.append(" AND b.street LIKE '%").append(street).append("%'");
+		}
 
-        if (!StringUtils.isNullOrEmpty(districtCode)) {
-            joinQuery.append("\nINNER JOIN district d ON d.id = b.districtid");
-            whereQuery.append(" AND d.code LIKE '%" + districtCode + "%'");
-        }
-    }
+		String ward = MapUtils.getObject(buildingSearch, "ward", String.class);
+		if (!CheckInputSearchUtils.isEmptyOrNullString(ward)) {
+			whereQuery.append(" AND b.ward LIKE '%").append(ward).append("%'");
+		}
 
-    private void buildNormalQuery(Map<String, String> buildingSearch, StringBuilder whereQuery) {
-        String name =  buildingSearch.get("name");
-        String street = buildingSearch.get("street");
-        String ward = buildingSearch.get("ward");
-        String floorArea = buildingSearch.get("floorArea");
-        String numberOfBasement = buildingSearch.get("numberOfBasement");
-        String direction = buildingSearch.get("direction");
-        String level = buildingSearch.get("level");
-        String managerName = buildingSearch.get("managerName");
-        String managerPhone = buildingSearch.get("managerPhone");
-        String rentPriceFrom = buildingSearch.get("rentPriceFrom");
-        String rentPriceTo = buildingSearch.get("rentPriceTo");
-        if (!StringUtils.isNullOrEmpty(name)) {
-            whereQuery.append(" AND name LIKE '%" + name + "%'");
-        }
-        if (!StringUtils.isNullOrEmpty(street)) {
-            whereQuery.append(" AND street LIKE '%" + street + "%'");
-        }
-        if (!StringUtils.isNullOrEmpty(ward)) {
-            whereQuery.append(" AND ward LIKE '%" + ward + "%'");
-        }
-        if (!StringUtils.isNullOrEmpty(floorArea)) {
-            whereQuery.append(" AND floorArea = " + floorArea);
-        }
-        if (!StringUtils.isNullOrEmpty(numberOfBasement)) {
-            whereQuery.append(" AND numberofbasement = " + numberOfBasement);
-        }
-        if (!StringUtils.isNullOrEmpty(direction)) {
-            whereQuery.append(" AND direction LIKE '%" + direction + "%'");
-        }
-        if (!StringUtils.isNullOrEmpty(level)) {
-            whereQuery.append(" AND level LIKE '%" + level + "%'");
-        }
-        if (!StringUtils.isNullOrEmpty(managerName)) {
-            whereQuery.append(" AND managername LIKE '%" + managerName + "%'");
-        }
-        if (!StringUtils.isNullOrEmpty(managerPhone)) {
-            whereQuery.append(" AND managerphone LIKE '%" + managerPhone + "%'");
-        }
-        if (!StringUtils.isNullOrEmpty(rentPriceFrom)) {
-            whereQuery.append(" AND b.rentPrice >= " + rentPriceFrom);
-        }
-        if (!StringUtils.isNullOrEmpty(rentPriceTo)) {
-            whereQuery.append(" AND b.rentPrice <= " + rentPriceTo);
-        }
+		String districtCode = MapUtils.getObject(buildingSearch, "districtcode", String.class);
+		if(!CheckInputSearchUtils.isEmptyOrNullString(districtCode)){
+			whereQuery.append(" AND d.code LIKE '%").append(districtCode).append("%'");
+		}
 
-    }
+		Integer floorArea = MapUtils.getObject(buildingSearch, "floorarea", Integer.class);
+		if(!CheckInputSearchUtils.isNullInteger(floorArea)){
+			whereQuery.append(" AND b.floorarea = ").append(floorArea);
+		}
 
+		Integer numberOfBasement = MapUtils.getObject(buildingSearch, "numberofbasement", Integer.class);
+		if(!CheckInputSearchUtils.isNullInteger(numberOfBasement)){
+			whereQuery.append(" AND b.numberofbasement = ").append(numberOfBasement);
+		}
+
+		String direction = MapUtils.getObject(buildingSearch, "direction", String.class);
+		if(!CheckInputSearchUtils.isEmptyOrNullString(direction)){
+			whereQuery.append(" AND b.direction LIKE '%").append(direction).append("%'");
+		}
+
+		String level = MapUtils.getObject(buildingSearch, "level", String.class);
+		if(!CheckInputSearchUtils.isEmptyOrNullString(level)){
+			whereQuery.append(" AND b.level LIKE '%").append(level).append("%'");
+		}
+
+		String managerName = MapUtils.getObject(buildingSearch, "managename", String.class);
+		if (!CheckInputSearchUtils.isEmptyOrNullString(managerName)) {
+			whereQuery.append(" AND b.managername LIKE '%").append(managerName).append("%'");
+		}
+
+		String managerPhone = MapUtils.getObject(buildingSearch, "managerphone", String.class);
+		if (!CheckInputSearchUtils.isEmptyOrNullString(managerPhone)) {
+			whereQuery.append(" AND b.managerphone LIKE '%").append(managerPhone).append("%'");
+		}
+
+		Integer rentPriceFrom = MapUtils.getObject(buildingSearch, "rentpricefrom", Integer.class);
+		if(!CheckInputSearchUtils.isNullInteger(rentPriceFrom)){
+			whereQuery.append(" AND b.rentprice >= ").append(rentPriceFrom);
+		}
+		Integer rentPriceTo = MapUtils.getObject(buildingSearch, "rentpriceto", Integer.class);
+		if(!CheckInputSearchUtils.isNullInteger(rentPriceTo)){
+			whereQuery.append(" AND b.rentprice <= ").append(rentPriceTo);
+		}
+		Integer rentAreaFrom = MapUtils.getObject(buildingSearch, "rentareafrom", Integer.class);
+		if(!CheckInputSearchUtils.isNullInteger(rentAreaFrom)){
+			whereQuery.append(" AND ra.value >= ").append(rentAreaFrom);
+		}
+		Integer rentAreaTo = MapUtils.getObject(buildingSearch, "rentareato", Integer.class);
+		if(!CheckInputSearchUtils.isNullInteger(rentAreaTo)){
+			whereQuery.append(" AND ra.value <= ").append(rentAreaTo);
+		}
+		if (buildingTypes != null && !buildingTypes.isEmpty()) {
+			whereQuery.append(" AND (");
+			for (int i = 0; i < buildingTypes.size(); i++) {
+				if (i > 0) {
+					whereQuery.append(" OR ");
+				}
+				whereQuery.append("r.code LIKE '%" + buildingTypes.get(i)+ "%'");
+			}
+
+			whereQuery.append(")");
+		}
+	}
 }

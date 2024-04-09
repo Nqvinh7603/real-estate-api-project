@@ -29,11 +29,10 @@ public class BuildingAPI {
 		return null;
 	}
 
-	// excercise-2
+	// Exercise 2 -> HashMap
 	@GetMapping
-	public List<BuildingSearchResponse> findBuilding(@RequestParam(required = false) Map<String, String> buildingSearch,
+	public List<BuildingSearchResponse> findBuilding(@RequestParam(required = false) Map<String, Object> buildingSearch,
 			@RequestParam(required = false) List<String> buildingTypes) throws SQLException {
-
 		return buildingService.getBuildingList(buildingSearch, buildingTypes);
 	}
 }

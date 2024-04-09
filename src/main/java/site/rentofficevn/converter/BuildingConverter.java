@@ -1,13 +1,14 @@
 package site.rentofficevn.converter;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.apache.commons.lang3.StringUtils;
+
+import site.rentofficevn.model.dto.BuildingDTO;
 import site.rentofficevn.model.response.BuildingSearchResponse;
 import site.rentofficevn.repository.DistrictRepository;
 import site.rentofficevn.repository.RentAreaRepository;
@@ -20,9 +21,14 @@ import site.rentofficevn.repository.impl.RentAreaRepositoryImpl;
 @Component
 public class BuildingConverter {
 
-	private DistrictRepository districtRepository = new DistrictRepositoryImpl();
-	private RentAreaRepository rentAreaRepository = new RentAreaRepositoryImpl();
+	@Autowired
+	private ModelMapper modelMapper;
+	@Autowired
+	private DistrictRepository districtRepository ;
+	@Autowired
+	private RentAreaRepository rentAreaRepository;
 
+	//Áp dụng cách thuần convert
 	public BuildingSearchResponse convertFromEntitytoBuildingSearchResponse(BuildingEntity buildingEntity) {
 
 		BuildingSearchResponse buildingSearchResponse = new BuildingSearchResponse();
@@ -40,6 +46,7 @@ public class BuildingConverter {
 		buildingSearchResponse
 				.setAddress(buildingEntity.getStreet() + " - " + buildingEntity.getWard() + " - " + district.getName());
 
+
 		// Xử lý rent area
 		// Cach 1:Dùng Stream API
 		List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findByBuildingId(buildingEntity.getId());
@@ -47,7 +54,9 @@ public class BuildingConverter {
 				.map(rentAreaEntity -> String.valueOf(rentAreaEntity.getValue())).collect(Collectors.joining(", "));
 		buildingSearchResponse.setEmptyArea(rentAreaString);
 
-		// Cach2: Dùng StringUtils
+
+
+		// Cach 2: Dùng StringUtils
 		/*List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findByBuildingId(buildingEntity.getId());
 		String rentAreaString = StringUtils.join(
 				rentAreaEntities.stream().map(rentAreaEntity -> String.valueOf(rentAreaEntity.getValue())).toArray(),
@@ -56,7 +65,21 @@ public class BuildingConverter {
 			rentAreaString = StringUtils.removeEnd(rentAreaString, ", ");
 		}
 		buildingSearchResponse.setEmptyArea(rentAreaString);
-*/
+		*/
 		return buildingSearchResponse;
 	}
+
+	//Áp dụng cách sử dụng ModelMapper để convert
+	/*public BuildingSearchResponse convertFromEntitytoBuildingSearchResponse(BuildingEntity buildingEntity) {
+
+		BuildingSearchResponse buildingSearchResponse = modelMapper.map(buildingEntity, BuildingSearchResponse.class);
+		return buildingSearchResponse;
+	}*/
+
+	public BuildingDTO convertFromEntitytoDTO(BuildingEntity buildingEntity) {
+
+		 BuildingDTO result = modelMapper.map(buildingEntity, BuildingDTO.class);
+		return result;
+	}
+
 }

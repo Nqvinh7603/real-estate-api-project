@@ -11,8 +11,8 @@ public class RentAreaRepositoryImpl extends JdbcRepositoryImpl<RentAreaEntity> i
 
 	@Override
 	public List<RentAreaEntity> findByBuildingId(Long id) {
-		String sql = "select * from rentarea";
-		sql += " where rentarea.buildingid = " + id;
+		String sql = "select * from rentarea as ra";
+		sql += " where ra.buildingid = " + id;
 		return findByCondition(sql);
 	}
 
