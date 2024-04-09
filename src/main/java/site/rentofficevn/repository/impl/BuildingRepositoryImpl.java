@@ -14,7 +14,7 @@ public class BuildingRepositoryImpl	 extends JdbcRepositoryImpl<BuildingEntity> 
 
 	@Override
 	public List<BuildingEntity> findBuilding(Map<String, Object> buildingSearch, List<String> buildingTypes) {
-		StringBuilder finalQuery = new StringBuilder("SELECT * from building b\n");
+		StringBuilder finalQuery = new StringBuilder("SELECT b.id, b.name, b.street, b.ward, b.districtid, b.managername, b.managerphone, b.floorarea, b.rentprice, b.rentpriceDescription, b.servicefee, b.brokeragefee from building b\n");
 		StringBuilder joinQuery = new StringBuilder();
 		StringBuilder whereQuery = new StringBuilder(SystemConstant.WHERE_ONE_EQUAL_ONE);
 		buildSqlJoin(buildingSearch, buildingTypes, joinQuery);
