@@ -115,5 +115,15 @@ public class BuildingRepositoryImpl	 extends JdbcRepositoryImpl<BuildingEntity> 
 		if(!CheckInputSearchUtils.isNullInteger(rentAreaTo)){
 			whereQuery.append(" AND ra.value <= ").append(rentAreaTo);
 		}
+		if (buildingTypes != null && !buildingTypes.isEmpty()) {
+			whereQuery.append(" AND (");
+			for (int i = 0; i < buildingTypes.size(); i++) {
+				if (i > 0) {
+					whereQuery.append(" OR ");
+				}
+				whereQuery.append("r.code LIKE '%" + buildingTypes.get(i) + "%'");
+			}
+			whereQuery.append(")");
+		}
 	}
 }

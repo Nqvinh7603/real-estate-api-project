@@ -1,5 +1,6 @@
 package site.rentofficevn.repository.impl;
 
+
 import java.lang.reflect.ParameterizedType;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -137,3 +138,4 @@ public class JdbcRepositoryImpl<T> implements JdbcRepository<T> {
 		return null;
 	}
 }
+
