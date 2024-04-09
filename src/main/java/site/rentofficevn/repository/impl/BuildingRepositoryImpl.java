@@ -121,8 +121,9 @@ public class BuildingRepositoryImpl	 extends JdbcRepositoryImpl<BuildingEntity> 
 				if (i > 0) {
 					whereQuery.append(" OR ");
 				}
-				whereQuery.append("r.code LIKE '%" + buildingTypes.get(i) + "%'");
+				whereQuery.append("r.code LIKE '%" + buildingTypes.get(i)+ "%'");
 			}
+
 			whereQuery.append(")");
 		}
 	}
