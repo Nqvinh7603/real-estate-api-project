@@ -19,8 +19,8 @@ public class BuildingServiceImpl implements BuildingService {
 	@Autowired
 	private BuildingRepository buildingRespository ;
 
-
-	private BuildingConverter buildingConverter = new BuildingConverter();
+	@Autowired
+	private BuildingConverter buildingConverter;
 
 	@Override
 	public List<BuildingSearchResponse> getBuildingList(Map<String, Object> buildingSearch,

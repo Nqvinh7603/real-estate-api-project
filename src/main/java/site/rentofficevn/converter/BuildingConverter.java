@@ -24,9 +24,9 @@ public class BuildingConverter {
 	@Autowired
 	private ModelMapper modelMapper;
 	@Autowired
-	DistrictRepository districtRepository ;
+	private DistrictRepository districtRepository ;
 	@Autowired
-	RentAreaRepository rentAreaRepository;
+	private RentAreaRepository rentAreaRepository;
 
 	//Áp dụng cách thuần convert
 	public BuildingSearchResponse convertFromEntitytoBuildingSearchResponse(BuildingEntity buildingEntity) {
