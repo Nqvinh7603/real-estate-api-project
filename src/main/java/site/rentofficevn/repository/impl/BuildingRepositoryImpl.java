@@ -31,12 +31,11 @@ public class BuildingRepositoryImpl	 extends JdbcRepositoryImpl<BuildingEntity> 
 		String districtCode = MapUtils.getObject(buildingSearch, "districtcode", String.class);
 		Integer rentAreaFrom = MapUtils.getObject(buildingSearch, "rentareafrom", Integer.class);
 		Integer rentAreaTo = MapUtils.getObject(buildingSearch, "rentareato", Integer.class);
-		//joinQuery.append(" INNER JOIN assignmentbuilding as ab ON ab.buildingid = b.id INNER JOIN user as u ON ab.staffid = u.id");
 
 		if(!CheckInputSearchUtils.isNullLong(staffId)){
 			joinQuery.append(" INNER JOIN assignmentbuilding as ab ON ab.buildingid = b.id INNER JOIN user as u ON ab.staffid = u.id");
 		}
-		//joinQuery.append(" INNER JOIN district d ON d.id = b.districtid");
+
 		if(!CheckInputSearchUtils.isEmptyOrNullString(districtCode)){
 			joinQuery.append(" INNER JOIN district d ON d.id = b.districtid");
 		}
