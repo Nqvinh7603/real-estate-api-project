@@ -112,7 +112,6 @@ public class JdbcRepositoryImpl<T> implements JdbcRepository<T> {
 			//ParameterizedType để lấy cái mảng
 			//
 			String sql = "select * from "+tableName+"";
-			//stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 
 			ResultsetMapper<T> resultsetMapper = new ResultsetMapper<>();
@@ -137,5 +136,4 @@ public class JdbcRepositoryImpl<T> implements JdbcRepository<T> {
 		}
 		return null;
 	}
-
 }

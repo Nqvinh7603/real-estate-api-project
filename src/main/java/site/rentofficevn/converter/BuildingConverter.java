@@ -45,12 +45,14 @@ public class BuildingConverter {
 		buildingSearchResponse
 				.setAddress(buildingEntity.getStreet() + " - " + buildingEntity.getWard() + " - " + district.getName());
 
+
 		// Xử lý rent area
 		// Cach 1:Dùng Stream API
 		List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findByBuildingId(buildingEntity.getId());
 		String rentAreaString = rentAreaEntities.stream()
 				.map(rentAreaEntity -> String.valueOf(rentAreaEntity.getValue())).collect(Collectors.joining(", "));
 		buildingSearchResponse.setEmptyArea(rentAreaString);
+
 
 
 		// Cach 2: Dùng StringUtils
