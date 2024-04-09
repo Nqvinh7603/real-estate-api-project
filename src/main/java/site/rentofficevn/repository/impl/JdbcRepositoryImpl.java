@@ -141,6 +141,7 @@ public class JdbcRepositoryImpl<T> implements JdbcRepository<T> {
 }*/
 package site.rentofficevn.repository.impl;
 
+/*
 import java.lang.reflect.ParameterizedType;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -280,4 +281,70 @@ public class JdbcRepositoryImpl<T> implements JdbcRepository<T> {
 		return null;
 	}
 
+}
+*/
+import java.lang.reflect.ParameterizedType;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import site.rentofficevn.annotation.Entity;
+import site.rentofficevn.annotation.Table;
+import site.rentofficevn.mapper.ResultsetMapper;
+import site.rentofficevn.repository.JdbcRepository;
+import site.rentofficevn.utils.ConnectionUtils;
+
+public class JdbcRepositoryImpl<T> implements JdbcRepository<T> {
+	private Class<T> tClass;
+
+	public JdbcRepositoryImpl() {
+		tClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+	}
+
+	@Override
+	public T findById(Long id) {
+		try (Connection conn = ConnectionUtils.getConnection();
+			 PreparedStatement stmt = conn.prepareStatement("SELECT * FROM " + getTableName() + " WHERE id = ?")) {
+			stmt.setLong(1, id);
+			try (ResultSet rs = stmt.executeQuery()) {
+				ResultsetMapper<T> resultsetMapper = new ResultsetMapper<>();
+				List<T> results = resultsetMapper.maprow(rs, tClass);
+				return results.size() > 0 ? results.get(0) : null;
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<T> findByCondition(String sql) {
+		try (Connection conn = ConnectionUtils.getConnection();
+			 PreparedStatement stmt = conn.prepareStatement(sql);
+			 ResultSet rs = stmt.executeQuery()) {
+			ResultsetMapper<T> resultsetMapper = new ResultsetMapper<>();
+			return resultsetMapper.maprow(rs, tClass);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<T> findAll() {
+		String sql = "SELECT * FROM " + getTableName();
+		return findByCondition(sql);
+	}
+
+	private String getTableName() {
+		if (tClass.isAnnotationPresent(Table.class)) {
+			Table table = tClass.getAnnotation(Table.class);
+			return table.name();
+		} else {
+			throw new IllegalArgumentException("Entity class must be annotated with @Table");
+		}
+	}
 }

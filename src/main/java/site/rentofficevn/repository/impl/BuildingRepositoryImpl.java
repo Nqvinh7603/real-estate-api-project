@@ -20,7 +20,8 @@ public class BuildingRepositoryImpl extends JdbcRepositoryImpl<BuildingEntity> i
         StringBuilder whereQuery = new StringBuilder();
 
         finalQuery.append(
-                "SELECT b.id, b.name, b.street, b.ward, b.districtid, b.managername, b.managerphone, b.floorarea, b.rentprice, b.rentpriceDescription, b.servicefee, b.brokeragefee")
+                /*"SELECT b.id, b.name, b.street, b.ward, b.districtid, b.managername, b.managerphone, b.floorarea, b.rentprice, b.rentpriceDescription, b.servicefee, b.brokeragefee")*/
+                "Select * ")
                 .append("\nFrom building b");
 
         buildJoinQuery(buildingSearch, buildingSearchType, whereQuery, joinQuery);

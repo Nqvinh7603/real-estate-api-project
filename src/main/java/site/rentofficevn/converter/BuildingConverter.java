@@ -33,6 +33,7 @@ public class BuildingConverter {
 		buildingSearchResponse.setRentCost(buildingEntity.getRentPrice().toString());
 		buildingSearchResponse.setServiceFee(buildingEntity.getServiceFee());
 		buildingSearchResponse.setBrokerageFee(buildingEntity.getBrokerageFee());
+		buildingSearchResponse.setNumberOfBasement(buildingEntity.getNumberOfBasement());
 
 		// Xử lý District
 		DistrictEntity district = districtRepository.findById(buildingEntity.getDistrictId());
