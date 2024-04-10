@@ -14,17 +14,15 @@ public class BuildingRepositoryImpl	 extends JdbcRepositoryImpl<BuildingEntity> 
 
 	@Override
 	public List<BuildingEntity> findBuilding(Map<String, Object> buildingSearch, List<String> buildingTypes) {
-		StringBuilder finalQuery = new StringBuilder("SELECT b.id, b.name, b.street, b.ward, b.districtid, b.managername, b.managerphone, b.floorarea, b.rentprice, b.rentpriceDescription, b.servicefee, b.brokeragefee from building b\n");
+		StringBuilder finalQuery = new StringBuilder("SELECT b.id, b.name, b.street, b.ward, b.districtid, b.managername, b.managerphone, b.floorarea, b.rentprice, b.rentpriceDescription, b.servicefee, b.brokeragefee, b.numberofbasement from building b\n");
 		StringBuilder joinQuery = new StringBuilder();
 		StringBuilder whereQuery = new StringBuilder(SystemConstant.WHERE_ONE_EQUAL_ONE);
-		buildSqlJoin(buildingSearch, buildingTypes, joinQuery);
-		buildSqlWhereClause(buildingSearch, buildingTypes, whereQuery);
-		finalQuery.append(joinQuery)
-				.append(whereQuery)
+		finalQuery.append(buildSqlJoin(buildingSearch, buildingTypes, joinQuery))
+				.append(buildSqlWhereClause(buildingSearch, buildingTypes, whereQuery))
 				.append(" GROUP BY b.id");
 		return findByCondition(finalQuery.toString());
 	}
-	private void buildSqlJoin(Map<String, Object> buildingSearch, List<String> buildingTypes, StringBuilder joinQuery
+	private StringBuilder buildSqlJoin(Map<String, Object> buildingSearch, List<String> buildingTypes, StringBuilder joinQuery
 	){
 		Long staffId = MapUtils.getObject(buildingSearch, "staffid", Long.class);
 		String districtCode = MapUtils.getObject(buildingSearch, "districtcode", String.class);
@@ -46,9 +44,9 @@ public class BuildingRepositoryImpl	 extends JdbcRepositoryImpl<BuildingEntity> 
 		if(!CheckInputSearchUtils.isNullInteger(rentAreaFrom) || !CheckInputSearchUtils.isNullInteger(rentAreaTo)){
 			joinQuery.append(" INNER JOIN rentarea as ra ON ra.buildingid = b.id");
 		}
-
+		return joinQuery;
 	}
-	private void buildSqlWhereClause(Map<String,Object> buildingSearch, List<String> buildingTypes, StringBuilder whereQuery){
+	private StringBuilder buildSqlWhereClause(Map<String,Object> buildingSearch, List<String> buildingTypes, StringBuilder whereQuery){
 		String name = MapUtils.getObject(buildingSearch, "name", String.class);
 		if(!CheckInputSearchUtils.isEmptyOrNullString(name)){
 			whereQuery.append(" AND b.name LIKE '%").append(name).append("%'");
@@ -123,8 +121,8 @@ public class BuildingRepositoryImpl	 extends JdbcRepositoryImpl<BuildingEntity> 
 				}
 				whereQuery.append("r.code LIKE '%" + buildingTypes.get(i)+ "%'");
 			}
-
 			whereQuery.append(")");
 		}
+		return whereQuery;
 	}
 }
