@@ -13,12 +13,8 @@ import site.rentofficevn.utils.StringUtils;
 
 
 @Repository
-@PropertySource("classpath:application.properties")
 public class BuildingRepositoryImpl extends JdbcRepositoryImpl<BuildingEntity> implements BuildingRepository {
-	@Value("${anh.yeu.em}")
-	private String dbUrl;
-	
-	
+
     @Override
     public List<BuildingEntity> findBuilding(Map<String, String> buildingSearch, List<String> buildingSearchType) {
         StringBuilder finalQuery = new StringBuilder();
