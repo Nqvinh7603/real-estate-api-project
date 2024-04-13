@@ -1,7 +1,7 @@
 package site.rentofficevn.repository.entity;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
+
 import java.util.ArrayList;
 import java.util.List;
 
