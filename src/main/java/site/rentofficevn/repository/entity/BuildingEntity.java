@@ -21,7 +21,7 @@ public class BuildingEntity {
 	private Integer numberOfBasement;
 
 
-	@OneToMany(mappedBy = "building")
+	@OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
 	private List<RentAreaEntity> rentAreas = new ArrayList<>();
 
 	public List<RentAreaEntity> getRentAreas() {

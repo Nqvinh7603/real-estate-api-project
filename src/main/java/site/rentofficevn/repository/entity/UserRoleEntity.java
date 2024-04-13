@@ -1,3 +1,4 @@
+/*
 package site.rentofficevn.repository.entity;
 
 
@@ -43,3 +44,4 @@ public class UserRoleEntity {
         this.roles = roles;
     }
 }
+*/
