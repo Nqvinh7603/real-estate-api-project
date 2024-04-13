@@ -27,18 +27,18 @@ public class BuildingConverter {
 
 		BuildingSearchResponse buildingSearchResponse = new BuildingSearchResponse();
 		buildingSearchResponse.setName(buildingEntity.getName());
-		buildingSearchResponse.setManagerName(buildingEntity.getManagerName());
+		/*buildingSearchResponse.setManagerName(buildingEntity.getManagerName());
 		buildingSearchResponse.setManagerPhone(buildingEntity.getManagerPhone());
 		buildingSearchResponse.setFloorArea(buildingEntity.getFloorArea());
 		buildingSearchResponse.setRentCost(buildingEntity.getRentPrice().toString());
 		buildingSearchResponse.setServiceFee(buildingEntity.getServiceFee());
-		buildingSearchResponse.setBrokerageFee(buildingEntity.getBrokerageFee());
+		buildingSearchResponse.setBrokerageFee(buildingEntity.getBrokerageFee());*/
 
 		// Xử lý District
-		DistrictEntity district = districtRepository.findById(buildingEntity.getDistrictId());
+		/*DistrictEntity district = districtRepository.findById(buildingEntity.getDistrictId());
 		buildingSearchResponse
 				.setAddress(buildingEntity.getStreet() + " - " + buildingEntity.getWard() + " - " + district.getName());
-
+*/
 		// Xử lý rent area
 		// Cach 1:Dùng Stream API
 		List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findByBuildingId(buildingEntity.getId());

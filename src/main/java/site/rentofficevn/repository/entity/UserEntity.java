@@ -19,7 +19,7 @@ public class UserEntity {
 	@Column(name = "username", nullable = false, unique = true)
 	private String userName;
 
-	@Column(name = "fullname", nullable = false)
+	@Column(name = "fullname")
 	private String fullName;
 
 	@Column(name = "password", nullable = false)
@@ -28,15 +28,17 @@ public class UserEntity {
 	@Column(name = "status", nullable = false)
 	private Integer status;
 
-	@Column(name = "email", unique = true)
+	@Column(name = "email")
 	private String email;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	/*@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_role",
 			joinColumns = @JoinColumn(name = "user_id", nullable = false),
 			inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false))
-	private List<RoleEntity> roles = new ArrayList<>();
+	private List<RoleEntity> roles = new ArrayList<>();*/
 
+	@OneToMany(mappedBy = "users")
+	private List<UserRoleEntity> userRoles = new ArrayList<>();
 	public String getUserName() {
 		return userName;
 	}
@@ -69,13 +71,13 @@ public class UserEntity {
 		this.status = status;
 	}
 
-	public List<RoleEntity> getRoles() {
+	/*public List<RoleEntity> getRoles() {
 		return roles;
 	}
 
 	public void setRoles(List<RoleEntity> roles) {
 		this.roles = roles;
-	}
+	}*/
 
 	public String getEmail() {
 		return email;
@@ -83,5 +85,21 @@ public class UserEntity {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public List<UserRoleEntity> getUserRoles() {
+		return userRoles;
+	}
+
+	public void setUserRoles(List<UserRoleEntity> userRoles) {
+		this.userRoles = userRoles;
 	}
 }
