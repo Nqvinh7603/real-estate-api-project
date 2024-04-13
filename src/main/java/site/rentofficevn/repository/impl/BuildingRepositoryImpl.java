@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
+import org.springframework.transaction.annotation.Transactional;
 import site.rentofficevn.repository.BuildingRepository;
 import site.rentofficevn.repository.entity.BuildingEntity;
 
@@ -37,5 +38,11 @@ public class BuildingRepositoryImpl implements BuildingRepository {
         String sql = "Select * from building b where b.id = " + id+"";
         Query query = entityManager.createNativeQuery(sql, BuildingEntity.class);
         return (BuildingEntity) query.getSingleResult();
+    }
+
+    @Override
+    @Transactional
+    public void save(BuildingEntity buildingEntity) {
+        entityManager.persist(buildingEntity);
     }
 }

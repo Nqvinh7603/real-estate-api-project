@@ -1,15 +1,15 @@
 package site.rentofficevn.model.dto;
 
 public class RentAreaDTO {
-    private Long id;
     private Integer value;
+    private Long buildingId;
 
-    public Long getId() {
-        return id;
+    public Long getBuildingId() {
+        return buildingId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setBuildingId(Long buildingId) {
+        this.buildingId = buildingId;
     }
 
     public Integer getValue() {

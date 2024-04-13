@@ -9,6 +9,7 @@ import site.rentofficevn.model.dto.RentAreaDTO;
 import site.rentofficevn.repository.BuildingRepository;
 import site.rentofficevn.repository.entity.BuildingEntity;
 import site.rentofficevn.repository.entity.RentAreaEntity;
+import site.rentofficevn.service.BuildingService;
 
 import java.util.List;
 
@@ -16,15 +17,10 @@ import java.util.List;
 @RequestMapping("/api/rent-area")
 public class RentAreaAPI {
     @Autowired
-    private BuildingRepository buildingRepository;
+    private BuildingService buildingService;
     @GetMapping
     public List<RentAreaDTO> getRentArea(@RequestParam(value = "buildingId", required = false) Long buildingId) {
-        BuildingEntity buildingEntity = buildingRepository.findById(buildingId);
-        List<RentAreaEntity> rentAreaEntities = buildingEntity.getRentAreas();
-        for(RentAreaEntity rentAreaEntity : rentAreaEntities) {
-            System.out.println(rentAreaEntity.getValue());
-        }
-        return  null;
+        return  buildingService.getRentAreaListByBuilding(buildingId);
     }
 
 }
