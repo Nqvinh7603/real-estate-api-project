@@ -32,4 +32,10 @@ public class BuildingRepositoryImpl implements BuildingRepository {
         return query.getResultList();
     }
 
+    @Override
+    public BuildingEntity findById(Long id) {
+        String sql = "Select * from building b where b.id = " + id+"";
+        Query query = entityManager.createNativeQuery(sql, BuildingEntity.class);
+        return (BuildingEntity) query.getSingleResult();
+    }
 }

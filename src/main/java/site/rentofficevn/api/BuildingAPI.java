@@ -37,4 +37,5 @@ public class BuildingAPI {
 			@RequestParam(required = false) List<String> buildingTypes) throws SQLException {
 		return buildingService.getBuildingList();
 	}
+
 }
