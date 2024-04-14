@@ -21,8 +21,12 @@ public class BuildingRepositoryImpl	 extends JdbcRepositoryImpl<BuildingEntity> 
 		StringBuilder joinQuery = new StringBuilder();
 		StringBuilder whereQuery = new StringBuilder(SystemConstant.WHERE_ONE_EQUAL_ONE);
 		finalQuery.append(buildSqlJoin(buildingSearch, buildingTypes, joinQuery))
-				.append(buildSqlWhereClause(buildingSearch, buildingTypes, whereQuery))
-				.append(" GROUP BY b.id,br.id");
+				.append(buildSqlWhereClause(buildingSearch, buildingTypes, whereQuery));
+		if (buildingTypes != null && !buildingTypes.isEmpty()) {
+			finalQuery.append(" GROUP BY b.id, br.id");
+		} else {
+			finalQuery.append(" GROUP BY b.id");
+		}
 		return findByCondition(finalQuery.toString());
 	}
 	private StringBuilder buildSqlJoin(Map<String, Object> buildingSearch, List<String> buildingTypes, StringBuilder joinQuery
