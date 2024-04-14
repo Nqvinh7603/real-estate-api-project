@@ -2,6 +2,8 @@ package site.rentofficevn.repository.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Repository;
 import site.rentofficevn.constant.SystemConstant;
 import site.rentofficevn.repository.BuildingRepository;
@@ -113,7 +115,8 @@ public class BuildingRepositoryImpl	 extends JdbcRepositoryImpl<BuildingEntity> 
 		if(!CheckInputSearchUtils.isNullInteger(rentAreaTo)){
 			whereQuery.append(" AND ra.value <= ").append(rentAreaTo);
 		}
-		if (buildingTypes != null && !buildingTypes.isEmpty()) {
+		//java 7
+		/*if (buildingTypes != null && !buildingTypes.isEmpty()) {
 			whereQuery.append(" AND (");
 			for (int i = 0; i < buildingTypes.size(); i++) {
 				if (i > 0) {
@@ -121,6 +124,13 @@ public class BuildingRepositoryImpl	 extends JdbcRepositoryImpl<BuildingEntity> 
 				}
 				whereQuery.append("r.code LIKE '%" + buildingTypes.get(i)+ "%'");
 			}
+			whereQuery.append(")");
+		}*/
+
+		//java 8
+		if (buildingTypes != null && !buildingTypes.isEmpty()) {
+			whereQuery.append(" AND (");
+			whereQuery.append(buildingTypes.stream().map(type -> "r.code LIKE '%" + type + "%'").collect(Collectors.joining(" OR ")));
 			whereQuery.append(")");
 		}
 		return whereQuery;
