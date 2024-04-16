@@ -33,8 +33,10 @@ public class BuildingConverter {
 
 		//Xử lý District
 		//DistrictEntity districtEntity = districtRepository.findById().get();
-		DistrictEntity districtEntity = districtRepository.findById(buildingEntity.getDistrictId()).get();
-		buildingSearchResponse.setAddress(buildingEntity.getStreet() + " - " + buildingEntity.getWard() + " - " + districtEntity.getName());
+		//DistrictEntity districtEntity = buildingEntity.getDistrict();
+		//DistrictEntity districtEntity = districtRepository.(buildingEntity.getDistrict()).get();
+		buildingSearchResponse.setAddress(buildingEntity.getStreet() + " - " + buildingEntity.getWard() + " - " + buildingEntity.getDistrict().getName());
+
 
 		//Xử lý rent area -> By Stream API
 		List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findByBuildingId(buildingEntity.getId());

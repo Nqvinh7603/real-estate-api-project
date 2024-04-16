@@ -1,9 +1,8 @@
 package site.rentofficevn.repository.entity;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="district")
@@ -13,6 +12,18 @@ public class DistrictEntity extends BaseEntity{
 	private String code;
 	@Column(name = "name")
 	private String name;
+
+	@OneToMany(mappedBy = "district", fetch = FetchType.LAZY)
+	private List<BuildingEntity> buildings;
+
+	public List<BuildingEntity> getBuildings() {
+		return buildings;
+	}
+
+	public void setBuildings(List<BuildingEntity> buildings) {
+		this.buildings = buildings;
+	}
+
 	public String getCode() {
 		return code;
 	}

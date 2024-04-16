@@ -14,8 +14,6 @@ public class BuildingEntity extends BaseEntity {
 	private String street;
 	@Column(name = "ward")
 	private String ward;
-	@Column(name = "districtid")
-	private Long districtId ;
 	@Column(name = "floorarea")
 	private Integer floorArea;
 	@Column(name = "numberofbasement")
@@ -32,16 +30,18 @@ public class BuildingEntity extends BaseEntity {
 	private String serviceFee;
 	@Column(name = "brokeragefee")
 	private BigDecimal brokerageFee;
-
+	@ManyToOne
+	@JoinColumn(name = "districtid")
+	private DistrictEntity district;
 	@OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
 	private List<RentAreaEntity> rentAreas;
 
-	public Long getDistrictId() {
-		return districtId;
+	public DistrictEntity getDistrict() {
+		return district;
 	}
 
-	public void setDistrictId(Long districtId) {
-		this.districtId = districtId;
+	public void setDistrict(DistrictEntity district) {
+		this.district = district;
 	}
 
 	public List<RentAreaEntity> getRentAreas() {
@@ -65,12 +65,7 @@ public class BuildingEntity extends BaseEntity {
 	public void setStreet(String street) {
 		this.street = street;
 	}
-	/*public Long getDistrictId() {
-		return districtId;
-	}
-	public void setDistrictId(Long districtId) {
-		this.districtId = districtId;
-	}*/
+
 	public Integer getNumberOfBasement() {
 		return numberOfBasement;
 	}
