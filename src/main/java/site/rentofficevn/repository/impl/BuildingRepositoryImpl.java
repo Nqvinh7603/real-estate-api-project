@@ -135,7 +135,9 @@ public class BuildingRepositoryImpl	 extends JdbcRepositoryImpl<BuildingEntity> 
 		//java 8
 		if (buildingTypes != null && !buildingTypes.isEmpty()) {
 			whereQuery.append(" AND (");
-			whereQuery.append(buildingTypes.stream().map(type -> "r.code LIKE '%" + type + "%'").collect(Collectors.joining(" OR ")));
+			whereQuery.append(buildingTypes.stream()
+					.map(type -> "r.code LIKE '%" + type + "%'")
+					.collect(Collectors.joining(" OR ")));
 			whereQuery.append(")");
 		}
 		return whereQuery;

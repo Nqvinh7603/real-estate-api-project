@@ -20,7 +20,6 @@ public class JdbcRepositoryImpl<T> implements JdbcRepository<T> {
 
 	public JdbcRepositoryImpl() {
 		tClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-
 	}
 
 	@Override
