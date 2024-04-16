@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +18,6 @@ import site.rentofficevn.service.BuildingService;
 
 @RestController
 @RequestMapping("/api/building")
-
 public class BuildingAPI {
 	@Autowired
 	private BuildingService buildingService;
@@ -32,10 +29,10 @@ public class BuildingAPI {
 		return null;
 	}
 
+	// Exercise 2 -> HashMap
 	@GetMapping
-	public List<BuildingSearchResponse> findBuilding(@RequestParam(required = false) Map<String, String> buildingSearch,
+	public List<BuildingSearchResponse> findBuilding(@RequestParam(required = false) Map<String, Object> buildingSearch,
 			@RequestParam(required = false) List<String> buildingTypes) throws SQLException {
-		return buildingService.getBuildingList();
+		return buildingService.getBuildingList(buildingSearch, buildingTypes);
 	}
-
 }

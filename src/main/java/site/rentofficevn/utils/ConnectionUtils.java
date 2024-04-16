@@ -14,20 +14,23 @@ public class ConnectionUtils {
 	@Value("${spring.datasource.url}")
 	private static String DB_URL;
 
+<<<<<<< HEAD
 	@Value("${spring.datasource.username}")
 	private static String USER;
 
 	@Value("${spring.datasource.password}")
 	private static String PASS;
 	public static Connection getConnection() {
+=======
+	public static final Connection getConnection() {
+>>>>>>> 908640334f080c7e5b0b7806b76cbfa6fbea68e7
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			return conn;
 		} catch (SQLException e) {
-			return null;
-		} catch (Exception e) {
-			return null;
+			e.printStackTrace();
 		}
+		return null;
 	}
 }
