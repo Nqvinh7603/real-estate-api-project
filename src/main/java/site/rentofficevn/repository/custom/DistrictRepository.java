@@ -1,7 +1,6 @@
-package site.rentofficevn.repository;
+package site.rentofficevn.repository.custom;
 
-import org.springframework.stereotype.Repository;
-
+import site.rentofficevn.repository.JdbcRepository;
 import site.rentofficevn.repository.entity.DistrictEntity;
 
 public interface DistrictRepository extends JdbcRepository<DistrictEntity> {

@@ -1,4 +1,4 @@
-package site.rentofficevn.repository;
+package site.rentofficevn.repository.custom;
 
 import java.util.List;
 

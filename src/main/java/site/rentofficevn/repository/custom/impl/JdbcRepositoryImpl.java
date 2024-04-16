@@ -1,4 +1,4 @@
-/*package site.rentofficevn.repository.impl;
+/*package site.rentofficevn.repository.custom.impl;
 
 import java.lang.reflect.ParameterizedType;
 import java.sql.Connection;
@@ -139,11 +139,10 @@ public class JdbcRepositoryImpl<T> implements JdbcRepository<T> {
 	}
 
 }*/
-package site.rentofficevn.repository.impl;
+package site.rentofficevn.repository.custom.impl;
 
 import java.lang.reflect.ParameterizedType;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;

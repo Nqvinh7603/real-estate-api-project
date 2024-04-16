@@ -1,11 +1,10 @@
-package site.rentofficevn.repository.impl;
+package site.rentofficevn.repository.custom.impl;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import site.rentofficevn.repository.RentAreaRepository;
+import site.rentofficevn.repository.custom.RentAreaRepository;
 import site.rentofficevn.repository.entity.RentAreaEntity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

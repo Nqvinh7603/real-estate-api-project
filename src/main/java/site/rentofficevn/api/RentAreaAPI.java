@@ -6,9 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import site.rentofficevn.model.dto.RentAreaDTO;
-import site.rentofficevn.repository.BuildingRepository;
-import site.rentofficevn.repository.entity.BuildingEntity;
-import site.rentofficevn.repository.entity.RentAreaEntity;
 import site.rentofficevn.service.BuildingService;
 
 import java.util.List;

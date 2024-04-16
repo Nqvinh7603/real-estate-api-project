@@ -1,13 +1,11 @@
-package site.rentofficevn.repository.impl;
+package site.rentofficevn.repository.custom.impl;
 
 import java.util.List;
-import java.util.Map;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import org.springframework.transaction.annotation.Transactional;
-import site.rentofficevn.repository.BuildingRepository;
+import site.rentofficevn.repository.custom.BuildingRepository;
 import site.rentofficevn.repository.entity.BuildingEntity;
 
 import javax.persistence.EntityManager;

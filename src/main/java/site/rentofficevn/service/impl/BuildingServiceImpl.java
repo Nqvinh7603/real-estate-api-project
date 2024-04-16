@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
 import site.rentofficevn.converter.BuildingConverter;
 import site.rentofficevn.converter.RentAreaConverter;
+import site.rentofficevn.model.dto.BuildingDTO;
 import site.rentofficevn.model.dto.RentAreaDTO;
 import site.rentofficevn.model.response.BuildingSearchResponse;
 import site.rentofficevn.repository.BuildingRepository;
-import site.rentofficevn.repository.RentAreaRepository;
+import site.rentofficevn.repository.custom.RentAreaRepository;
 import site.rentofficevn.repository.entity.RentAreaEntity;
 import site.rentofficevn.service.BuildingService;
 import site.rentofficevn.repository.entity.BuildingEntity;
@@ -23,7 +25,6 @@ import site.rentofficevn.repository.entity.BuildingEntity;
 public class BuildingServiceImpl implements BuildingService {
 
 	@Autowired
-	@Qualifier("buildingRepositoryImpl")
 	private BuildingRepository buildingRepository;
 	@Autowired
 	private BuildingConverter buildingConverter;
@@ -32,7 +33,7 @@ public class BuildingServiceImpl implements BuildingService {
 	@Autowired
 	private RentAreaRepository rentAreaRepository;
 
-	@Override
+	/*@Override
 	public List<BuildingSearchResponse> getBuildingList() {
 		List<BuildingSearchResponse> results = new ArrayList<>();
 		List<BuildingEntity> buildingEntity = buildingRepository.findBuilding();
@@ -41,15 +42,26 @@ public class BuildingServiceImpl implements BuildingService {
 			results.add(buildingSearchResponse);
 		}
 		return results;
+	}*/
+
+	@Override
+	public List<BuildingSearchResponse> getBuildingList() {
+		return Collections.emptyList();
 	}
 
 	@Override
 	public List<RentAreaDTO> getRentAreaListByBuilding(Long buildingId) {
 		List<RentAreaDTO> results = new ArrayList<>();
-		BuildingEntity buildingEntity = buildingRepository.findById(buildingId);
+		BuildingEntity buildingEntity = buildingRepository.findById(buildingId).get();
 		List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findByBuildingId(buildingId);
 		results = rentAreaEntities.stream().map(item -> rentAreaConverter.convertFromEntitytoRentAreaDTO(item)).collect(Collectors.toList());
 		return results;
 	}
 
+	@Override
+	@Transactional
+	public void saveBuilding(BuildingDTO building) {
+		BuildingEntity buildingEntity = null;
+		buildingRepository.save(buildingEntity);
+	}
 }
