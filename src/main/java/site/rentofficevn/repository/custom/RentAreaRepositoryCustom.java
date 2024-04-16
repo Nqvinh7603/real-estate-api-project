@@ -4,6 +4,6 @@ import java.util.List;
 
 import site.rentofficevn.repository.entity.RentAreaEntity;
 
-public interface RentAreaRepository {
+public interface RentAreaRepositoryCustom {
 	List<RentAreaEntity> findByBuildingId(Long id);
 }

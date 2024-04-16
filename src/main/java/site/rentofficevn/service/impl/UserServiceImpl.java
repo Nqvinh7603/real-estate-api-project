@@ -3,8 +3,8 @@ package site.rentofficevn.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import site.rentofficevn.model.dto.UserDTO;
-import site.rentofficevn.repository.custom.RoleRepository;
-import site.rentofficevn.repository.custom.UserRepository;
+import site.rentofficevn.repository.custom.RoleRepositoryCusstom;
+import site.rentofficevn.repository.custom.UserRepositoryCustom;
 import site.rentofficevn.repository.entity.UserEntity;
 import site.rentofficevn.service.UserService;
 
@@ -14,10 +14,10 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    private RoleRepository roleRepository;
+    private RoleRepositoryCusstom roleRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepositoryCustom userRepository;
 
     /*@Override
     public List<UserDTO> findByRole(String roleCode) {

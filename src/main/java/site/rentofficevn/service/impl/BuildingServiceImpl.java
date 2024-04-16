@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +15,7 @@ import site.rentofficevn.model.dto.BuildingDTO;
 import site.rentofficevn.model.dto.RentAreaDTO;
 import site.rentofficevn.model.response.BuildingSearchResponse;
 import site.rentofficevn.repository.BuildingRepository;
-import site.rentofficevn.repository.custom.RentAreaRepository;
+import site.rentofficevn.repository.custom.RentAreaRepositoryCustom;
 import site.rentofficevn.repository.entity.RentAreaEntity;
 import site.rentofficevn.service.BuildingService;
 import site.rentofficevn.repository.entity.BuildingEntity;
@@ -31,7 +30,7 @@ public class BuildingServiceImpl implements BuildingService {
 	@Autowired
 	private RentAreaConverter rentAreaConverter;
 	@Autowired
-	private RentAreaRepository rentAreaRepository;
+	private RentAreaRepositoryCustom rentAreaRepository;
 
 	/*@Override
 	public List<BuildingSearchResponse> getBuildingList() {

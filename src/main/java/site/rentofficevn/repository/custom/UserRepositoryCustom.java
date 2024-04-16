@@ -4,6 +4,6 @@ import site.rentofficevn.repository.entity.UserEntity;
 
 import java.util.List;
 
-public interface UserRepository {
+public interface UserRepositoryCustom {
     List<UserEntity> findByRole(String roleCode);
 }
