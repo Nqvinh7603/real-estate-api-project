@@ -10,9 +10,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Repository
-public class RentAreaRepositoryImpl extends JdbcRepositoryImpl<RentAreaEntity> implements RentAreaRepositoryCustom {
+public class RentAreaRepositoryImpl implements RentAreaRepositoryCustom {
 
-	@PersistenceContext
+	/*@PersistenceContext
 	private EntityManager entityManager;
 
 	@Override
@@ -21,7 +21,7 @@ public class RentAreaRepositoryImpl extends JdbcRepositoryImpl<RentAreaEntity> i
 		String sql = "FROM RentAreaEntity r WHERE building.id = " + id +"";
 		return entityManager.createQuery(sql, RentAreaEntity.class).getResultList();
 
-	}
+	}*/
 	//jdbc
 	/*@Override
 	public List<RentAreaEntity> findByBuildingId(Long id) {

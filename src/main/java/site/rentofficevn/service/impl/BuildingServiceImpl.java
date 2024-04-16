@@ -10,14 +10,13 @@ import org.springframework.stereotype.Service;
 import site.rentofficevn.converter.BuildingConverter;
 import site.rentofficevn.model.response.BuildingSearchResponse;
 import site.rentofficevn.repository.BuildingRepository;
-import site.rentofficevn.repository.impl.BuildingRepositoryImpl;
 import site.rentofficevn.service.BuildingService;
 import site.rentofficevn.repository.entity.BuildingEntity;
 
 @Service
 public class BuildingServiceImpl implements BuildingService {
 	@Autowired
-	private BuildingRepository buildingRespository ;
+	private BuildingRepository buildingRespository;
 
 	@Autowired
 	private BuildingConverter buildingConverter;

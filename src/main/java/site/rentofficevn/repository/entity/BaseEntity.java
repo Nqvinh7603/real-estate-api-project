@@ -1,14 +1,14 @@
 package site.rentofficevn.repository.entity;
 
-import site.rentofficevn.annotation.Column;
-import site.rentofficevn.annotation.Entity;
-import site.rentofficevn.annotation.Table;
+import javax.persistence.*;
 
 @Entity
 @Table
 public class BaseEntity {
-	@Column(name = "id")
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	public Long getId() {
 		return id;
 	}

@@ -1,12 +1,11 @@
 package site.rentofficevn.repository;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
+import site.rentofficevn.repository.custom.DistrictRepositoryCustom;
 import site.rentofficevn.repository.entity.DistrictEntity;
 
-import java.util.List;
 
-public interface DistrictRepository extends JdbcRepository<DistrictEntity> {
-	DistrictEntity findById(Long id);
-	List<DistrictEntity> findAll();
+
+public interface DistrictRepository extends DistrictRepositoryCustom,JpaRepository<DistrictEntity, Long> {
 }

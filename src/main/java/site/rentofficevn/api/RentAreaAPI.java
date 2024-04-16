@@ -1,3 +1,4 @@
+/*
 package site.rentofficevn.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,3 +22,4 @@ public class RentAreaAPI {
     }
 
 }
+*/

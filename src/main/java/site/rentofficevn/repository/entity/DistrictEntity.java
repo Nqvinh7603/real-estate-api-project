@@ -1,12 +1,14 @@
 package site.rentofficevn.repository.entity;
 
-import site.rentofficevn.annotation.Column;
-import site.rentofficevn.annotation.Entity;
-import site.rentofficevn.annotation.Table;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="district")
 public class DistrictEntity extends BaseEntity{
+
 	@Column(name = "code")
 	private String code;
 	@Column(name = "name")
