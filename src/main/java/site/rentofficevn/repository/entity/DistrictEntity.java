@@ -14,18 +14,15 @@ public class DistrictEntity {
 	private String code;
 	@Column(name = "name")
 	private String name;
-
 	@OneToMany(mappedBy = "district", fetch = FetchType.LAZY)
 	private List<BuildingEntity> buildings;
 
 	public List<BuildingEntity> getBuildings() {
 		return buildings;
 	}
-
 	public void setBuildings(List<BuildingEntity> buildings) {
 		this.buildings = buildings;
 	}
-
 	public String getCode() {
 		return code;
 	}
@@ -42,7 +39,6 @@ public class DistrictEntity {
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
