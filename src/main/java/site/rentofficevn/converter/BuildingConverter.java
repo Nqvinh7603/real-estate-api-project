@@ -8,15 +8,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import site.rentofficevn.model.dto.BuildingDTO;
 import site.rentofficevn.model.response.BuildingSearchResponse;
 import site.rentofficevn.repository.DistrictRepository;
 import site.rentofficevn.repository.RentAreaRepository;
 import site.rentofficevn.repository.entity.BuildingEntity;
 import site.rentofficevn.repository.entity.DistrictEntity;
 import site.rentofficevn.repository.entity.RentAreaEntity;
-import site.rentofficevn.repository.impl.DistrictRepositoryImpl;
-import site.rentofficevn.repository.impl.RentAreaRepositoryImpl;
+
 
 @Component
 public class BuildingConverter {
@@ -28,33 +26,21 @@ public class BuildingConverter {
 	@Autowired
 	private RentAreaRepository rentAreaRepository;
 
-	//Áp dụng cách thuần convert
+	//Áp dụng cách sử dụng ModelMapper để convert
 	public BuildingSearchResponse convertFromEntitytoBuildingSearchResponse(BuildingEntity buildingEntity) {
 
-		BuildingSearchResponse buildingSearchResponse = new BuildingSearchResponse();
-		buildingSearchResponse.setName(buildingEntity.getName());
-		buildingSearchResponse.setManagerName(buildingEntity.getManagerName());
-		buildingSearchResponse.setManagerPhone(buildingEntity.getManagerPhone());
-		buildingSearchResponse.setFloorArea(buildingEntity.getFloorArea());
-		buildingSearchResponse.setRentCost(buildingEntity.getRentPrice().toString());
-		buildingSearchResponse.setServiceFee(buildingEntity.getServiceFee());
-		buildingSearchResponse.setBrokerageFee(buildingEntity.getBrokerageFee());
-		buildingSearchResponse.setNumberOfBasement(buildingEntity.getNumberOfBasement());
+		BuildingSearchResponse buildingSearchResponse = modelMapper.map(buildingEntity, BuildingSearchResponse.class);
 
-		// Xử lý District
-		DistrictEntity district = districtRepository.findById(buildingEntity.getDistrictId());
-		buildingSearchResponse
-				.setAddress(buildingEntity.getStreet() + " - " + buildingEntity.getWard() + " - " + district.getName());
+		//Xử lý District
+
+		buildingSearchResponse.setAddress(buildingEntity.getStreet() + " - " + buildingEntity.getWard() + " - " + buildingEntity.getDistrict().getName());
 
 
-		// Xử lý rent area
-		// Cach 1:Dùng Stream API
+		//Xử lý rent area -> By Stream API
 		List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findByBuildingId(buildingEntity.getId());
 		String rentAreaString = rentAreaEntities.stream()
 				.map(rentAreaEntity -> String.valueOf(rentAreaEntity.getValue())).collect(Collectors.joining(", "));
 		buildingSearchResponse.setEmptyArea(rentAreaString);
-
-
 
 		// Cach 2: Dùng StringUtils
 		/*List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findByBuildingId(buildingEntity.getId());
@@ -64,22 +50,8 @@ public class BuildingConverter {
 		if (!rentAreaString.isEmpty()) {
 			rentAreaString = StringUtils.removeEnd(rentAreaString, ", ");
 		}
-		buildingSearchResponse.setEmptyArea(rentAreaString);
-		*/
+		buildingSearchResponse.setEmptyArea(rentAreaString);*/
+
 		return buildingSearchResponse;
 	}
-
-	//Áp dụng cách sử dụng ModelMapper để convert
-	/*public BuildingSearchResponse convertFromEntitytoBuildingSearchResponse(BuildingEntity buildingEntity) {
-
-		BuildingSearchResponse buildingSearchResponse = modelMapper.map(buildingEntity, BuildingSearchResponse.class);
-		return buildingSearchResponse;
-	}*/
-
-	public BuildingDTO convertFromEntitytoDTO(BuildingEntity buildingEntity) {
-
-		 BuildingDTO result = modelMapper.map(buildingEntity, BuildingDTO.class);
-		return result;
-	}
-
 }

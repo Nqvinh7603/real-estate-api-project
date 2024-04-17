@@ -1,24 +1,21 @@
 package site.rentofficevn.repository.entity;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
-import site.rentofficevn.annotation.Column;
-import site.rentofficevn.annotation.Entity;
-import site.rentofficevn.annotation.Table;
 @Entity
-@Table (name = "building")
-public class BuildingEntity extends BaseEntity {
-
+@Table(name = "building")
+public class BuildingEntity{
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	@Column(name = "name")
 	private String name;
 	@Column(name = "street")
 	private String street;
 	@Column(name = "ward")
 	private String ward;
-	@Column(name = "districtid")
-	private Long districtId ;
 	@Column(name = "floorarea")
 	private Integer floorArea;
 	@Column(name = "numberofbasement")
@@ -35,19 +32,32 @@ public class BuildingEntity extends BaseEntity {
 	private String serviceFee;
 	@Column(name = "brokeragefee")
 	private BigDecimal brokerageFee;
-	private List<UserEntity> userEntities = new ArrayList<>();
+	@ManyToOne
+	@JoinColumn(name = "districtid", nullable = false)
+	private DistrictEntity district;
+	@OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
+	private List<RentAreaEntity> rentAreas;
 
-	public List<UserEntity> getUserEntities() {
-		return userEntities;
+	public DistrictEntity getDistrict() {
+		return district;
 	}
-	public void setUserEntities(List<UserEntity> userEntities) {
-		this.userEntities = userEntities;
+
+	public void setDistrict(DistrictEntity district) {
+		this.district = district;
+	}
+
+	public List<RentAreaEntity> getRentAreas() {
+		return rentAreas;
+	}
+
+	public void setRentAreas(List<RentAreaEntity> rentAreas) {
+		this.rentAreas = rentAreas;
 	}
 
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -57,12 +67,7 @@ public class BuildingEntity extends BaseEntity {
 	public void setStreet(String street) {
 		this.street = street;
 	}
-	public Long getDistrictId() {
-		return districtId;
-	}
-	public void setDistrictId(Long districtId) {
-		this.districtId = districtId;
-	}
+
 	public Integer getNumberOfBasement() {
 		return numberOfBasement;
 	}
@@ -122,5 +127,13 @@ public class BuildingEntity extends BaseEntity {
 	}
 	public void setBrokerageFee(BigDecimal brokerageFee) {
 		this.brokerageFee = brokerageFee;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }
