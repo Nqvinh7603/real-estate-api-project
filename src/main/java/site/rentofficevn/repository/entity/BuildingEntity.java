@@ -2,6 +2,7 @@ package site.rentofficevn.repository.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,9 +33,11 @@ public class BuildingEntity{
 	private String serviceFee;
 	@Column(name = "brokeragefee")
 	private BigDecimal brokerageFee;
+
 	@ManyToOne
 	@JoinColumn(name = "districtid", nullable = false)
 	private DistrictEntity district;
+
 	@OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
 	private List<RentAreaEntity> rentAreas;
 
