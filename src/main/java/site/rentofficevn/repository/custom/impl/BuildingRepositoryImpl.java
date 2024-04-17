@@ -89,7 +89,7 @@ public class BuildingRepositoryImpl	  implements BuildingRepositoryCustom {
         Integer rentAreaFrom = MapUtils.getObject(buildingSearch, "rentareafrom", Integer.class);
         Integer rentAreaTo = MapUtils.getObject(buildingSearch, "rentareato", Integer.class);
         if(!CheckInputSearchUtils.isNullInteger(rentAreaFrom) || !CheckInputSearchUtils.isNullInteger(rentAreaTo)){
-            sqlSpecial.append(" EXISTS (SELECT * FROM rentarea ra WHERE ra.buildingid = b.id");
+            sqlSpecial.append(" AND EXISTS (SELECT * FROM rentarea ra WHERE ra.buildingid = b.id");
             if (!CheckInputSearchUtils.isNullInteger(rentAreaFrom)) {
                 sqlSpecial.append(" AND ra.value >= ").append(rentAreaFrom);
             }

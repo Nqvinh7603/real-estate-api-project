@@ -116,10 +116,10 @@ public class JdbcRepositoryImpl<T> implements JdbcRepository<T> {
 			String sql = "select * from "+tableName+"";
 			//stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
-
+				
 			ResultsetMapper<T> resultsetMapper = new ResultsetMapper<>();
 			return resultsetMapper.maprow(rs, tClass);
-
+			
 		}catch(SQLException ex) {
 			System.out.println(ex.getMessage());
 		}catch(Exception e) {
@@ -127,12 +127,12 @@ public class JdbcRepositoryImpl<T> implements JdbcRepository<T> {
 		}finally {
 			try {
 				if(conn != null) {
-					conn.close();}
+			conn.close();}
 				if(stmt != null) {
-					stmt.close();}
+			stmt.close();}
 				if(rs != null) {
-					rs.close();}
-
+			rs.close();}
+			
 			}catch(SQLException e) {
 				e.printStackTrace();
 			}
