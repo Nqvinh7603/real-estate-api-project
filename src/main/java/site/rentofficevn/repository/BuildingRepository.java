@@ -1,10 +1,8 @@
 package site.rentofficevn.repository;
 
-import java.util.List;
-import java.util.Map;
-
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import site.rentofficevn.repository.custom.BuildingRepositoryCustom;
 import site.rentofficevn.repository.entity.BuildingEntity;
-
-public interface BuildingRepository {
-	List<BuildingEntity> findBuilding(Map<String, Object> buildingSearch, List<String> buildingTypes);
+public interface BuildingRepository extends BuildingRepositoryCustom,JpaRepository<BuildingEntity, Long> {
 }

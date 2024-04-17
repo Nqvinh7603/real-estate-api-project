@@ -1,9 +1,11 @@
 package site.rentofficevn.repository;
 
-import java.util.List;
-
+import org.springframework.data.jpa.repository.JpaRepository;
+import site.rentofficevn.repository.custom.RentAreaRepositoryCustom;
 import site.rentofficevn.repository.entity.RentAreaEntity;
 
-public interface RentAreaRepository {
-	List<RentAreaEntity> findByBuildingId(Long id);
+import java.util.List;
+
+public interface RentAreaRepository extends JpaRepository<RentAreaEntity, Long> {
+    List<RentAreaEntity> findByBuildingId(Long id);
 }

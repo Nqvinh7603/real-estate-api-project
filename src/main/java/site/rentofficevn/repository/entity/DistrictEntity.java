@@ -1,16 +1,28 @@
 package site.rentofficevn.repository.entity;
 
-import site.rentofficevn.annotation.Column;
-import site.rentofficevn.annotation.Entity;
-import site.rentofficevn.annotation.Table;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="district")
-public class DistrictEntity extends BaseEntity{
+public class DistrictEntity {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	@Column(name = "code")
 	private String code;
 	@Column(name = "name")
 	private String name;
+	@OneToMany(mappedBy = "district", fetch = FetchType.LAZY)
+	private List<BuildingEntity> buildings;
+
+	public List<BuildingEntity> getBuildings() {
+		return buildings;
+	}
+	public void setBuildings(List<BuildingEntity> buildings) {
+		this.buildings = buildings;
+	}
 	public String getCode() {
 		return code;
 	}
@@ -22,5 +34,12 @@ public class DistrictEntity extends BaseEntity{
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

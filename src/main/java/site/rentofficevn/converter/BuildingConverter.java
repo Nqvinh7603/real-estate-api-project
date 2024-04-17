@@ -32,8 +32,9 @@ public class BuildingConverter {
 		BuildingSearchResponse buildingSearchResponse = modelMapper.map(buildingEntity, BuildingSearchResponse.class);
 
 		//Xử lý District
-		DistrictEntity districtEntity = districtRepository.findById(buildingEntity.getDistrictId());
-		buildingSearchResponse.setAddress(buildingEntity.getStreet() + " - " + buildingEntity.getWard() + " - " + districtEntity.getName());
+
+		buildingSearchResponse.setAddress(buildingEntity.getStreet() + " - " + buildingEntity.getWard() + " - " + buildingEntity.getDistrict().getName());
+
 
 		//Xử lý rent area -> By Stream API
 		List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findByBuildingId(buildingEntity.getId());
