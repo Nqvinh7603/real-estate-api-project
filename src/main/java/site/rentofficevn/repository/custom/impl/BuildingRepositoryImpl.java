@@ -21,12 +21,13 @@ public class BuildingRepositoryImpl	  implements BuildingRepositoryCustom {
     private EntityManager entityManager;
     @Override
     public List<BuildingEntity> findBuilding(Map<String, Object> buildingSearch, List<String> buildingTypes) {
-        //b.id, b.name, b.street, b.ward, b.districtid, b.managername, b.managerphone, b.floorarea, b.rentprice, b.rentpriceDescription, b.servicefee, b.brokeragefee, b.numberofbasement
-        StringBuilder finalQuery = new StringBuilder(
+        /*StringBuilder finalQuery = new StringBuilder(
                 "SELECT b.id, b.name, b.street, b.ward, b.districtid, " +
                         "b.managername, b.managerphone, b.floorarea, " +
                         "b.rentprice, b.rentpriceDescription, b.servicefee, " +
-                        "b.brokeragefee, b.numberofbasement from building b\n");
+                        "b.brokeragefee, b.numberofbasement from building b\n");*/
+        StringBuilder finalQuery = new StringBuilder(
+                "SELECT b.* from building b\n");
         finalQuery.append(buildJoiningClause(buildingSearch, buildingTypes))
                 .append(SystemConstant.WHERE_ONE_EQUAL_ONE)
                 .append(buildCommonClause(buildingSearch, buildingTypes))

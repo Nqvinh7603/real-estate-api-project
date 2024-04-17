@@ -8,7 +8,7 @@ public class BuildingSearchResponse {
 	private String address;
 	private Integer floorArea; // diện tích sàn
 	private String emptyArea; // diện tích trống
-	private String rentCost; // giá thuê
+	private String rentPrice; // giá thuê
 	private String serviceFee; // phí dịch vụ
 	private BigDecimal brokerageFee;// phí môi giới
 	private Integer numberOfBasement;
@@ -35,14 +35,6 @@ public class BuildingSearchResponse {
 	public void setManagerPhone(String managerPhone) {
 		this.managerPhone = managerPhone;
 	}
-
-	/*public String getRentArea() {
-		return rentArea;
-	}
-
-	public void setRentArea(String rentArea) {
-		this.rentArea = rentArea;
-	}*/
 
 	public String getName() {
 		return name;
@@ -76,12 +68,11 @@ public class BuildingSearchResponse {
 		this.emptyArea = emptyArea;
 	}
 
-	public String getRentCost() {
-		return rentCost;
+	public String getRentPrice() {
+		return rentPrice;
 	}
-
-	public void setRentCost(String rentCost) {
-		this.rentCost = rentCost;
+	public void setRentPrice(String rentPrice) {
+		this.rentPrice = rentPrice;
 	}
 
 	public String getServiceFee() {
@@ -100,38 +91,6 @@ public class BuildingSearchResponse {
 		this.brokerageFee = brokerageFee;
 	}
 
-	/*public Date getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public Date getModifiedDate() {
-		return modifiedDate;
-	}
-
-	public void setModifiedDate(Date modifiedDate) {
-		this.modifiedDate = modifiedDate;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public String getModifiedBy() {
-		return modifiedBy;
-	}
-
-	public void setModifiedBy(String modifiedBy) {
-		this.modifiedBy = modifiedBy;
-	}
-*/
 	public Integer getNumberOfBasement() {
 		return numberOfBasement;
 	}

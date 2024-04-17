@@ -8,9 +8,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 @PropertySource("classpath:application.properties")
 public class ConnectionUtils {
-	/*private static String DB_URL = "jdbc:mysql://localhost:3306/estatebasic";
-	private static String USER = "root";
-	private static String PASS = "Nqv@762003";*/
+
 	@Value("${spring.datasource.url}")
 	private static String DB_URL;
 

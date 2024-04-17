@@ -25,16 +25,13 @@ public class BuildingConverter {
 	private DistrictRepository districtRepository ;
 	@Autowired
 	private RentAreaRepository rentAreaRepository;
-
-	//Áp dụng cách sử dụng ModelMapper để convert
+	
 	public BuildingSearchResponse convertFromEntitytoBuildingSearchResponse(BuildingEntity buildingEntity) {
 
 		BuildingSearchResponse buildingSearchResponse = modelMapper.map(buildingEntity, BuildingSearchResponse.class);
 
 		//Xử lý District
-
 		buildingSearchResponse.setAddress(buildingEntity.getStreet() + " - " + buildingEntity.getWard() + " - " + buildingEntity.getDistrict().getName());
-
 
 		//Xử lý rent area -> By Stream API
 		List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findByBuildingId(buildingEntity.getId());
@@ -42,8 +39,8 @@ public class BuildingConverter {
 				.map(rentAreaEntity -> String.valueOf(rentAreaEntity.getValue())).collect(Collectors.joining(", "));
 		buildingSearchResponse.setEmptyArea(rentAreaString);
 
-		// Cach 2: Dùng StringUtils
-		/*List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findByBuildingId(buildingEntity.getId());
+		/*Cach 2: Dùng StringUtils
+		List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findByBuildingId(buildingEntity.getId());
 		String rentAreaString = StringUtils.join(
 				rentAreaEntities.stream().map(rentAreaEntity -> String.valueOf(rentAreaEntity.getValue())).toArray(),
 				", ");
