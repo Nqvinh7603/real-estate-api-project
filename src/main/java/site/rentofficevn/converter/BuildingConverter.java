@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import site.rentofficevn.model.response.BuildingSearchResponse;
@@ -32,9 +33,6 @@ public class BuildingConverter {
 		BuildingSearchResponse buildingSearchResponse = modelMapper.map(buildingEntity, BuildingSearchResponse.class);
 
 		//Xử lý District
-		//DistrictEntity districtEntity = districtRepository.findById().get();
-		//DistrictEntity districtEntity = buildingEntity.getDistrict();
-		//DistrictEntity districtEntity = districtRepository.(buildingEntity.getDistrict()).get();
 		buildingSearchResponse.setAddress(buildingEntity.getStreet() + " - " + buildingEntity.getWard() + " - " + buildingEntity.getDistrict().getName());
 
 

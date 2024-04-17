@@ -6,5 +6,4 @@ import site.rentofficevn.repository.entity.DistrictEntity;
 import java.util.List;
 
 public interface DistrictRepositoryCustom{
-    List<DistrictEntity> findAll();
 }

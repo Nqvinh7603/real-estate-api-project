@@ -6,8 +6,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "building")
-public class BuildingEntity extends BaseEntity {
-
+public class BuildingEntity{
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	@Column(name = "name")
 	private String name;
 	@Column(name = "street")
@@ -31,7 +33,7 @@ public class BuildingEntity extends BaseEntity {
 	@Column(name = "brokeragefee")
 	private BigDecimal brokerageFee;
 	@ManyToOne
-	@JoinColumn(name = "districtid")
+	@JoinColumn(name = "districtid", nullable = false)
 	private DistrictEntity district;
 	@OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
 	private List<RentAreaEntity> rentAreas;
@@ -125,5 +127,13 @@ public class BuildingEntity extends BaseEntity {
 	}
 	public void setBrokerageFee(BigDecimal brokerageFee) {
 		this.brokerageFee = brokerageFee;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }
