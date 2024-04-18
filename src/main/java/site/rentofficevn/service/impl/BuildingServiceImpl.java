@@ -3,6 +3,7 @@ package site.rentofficevn.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,11 +30,9 @@ public class BuildingServiceImpl implements BuildingService {
 		List<BuildingSearchResponse> results = new ArrayList<>();
 		BuildingSearchBuilder buildingSearchBuilder = convertToBuildingSearchBuilder(buildingSearch, buildingTypes);
 		List<BuildingEntity> buildingEntity = buildingRespository.findBuilding(buildingSearchBuilder);
-		for (BuildingEntity item : buildingEntity) {
-			BuildingSearchResponse buildingSearchResponse = buildingConverter.convertFromEntitytoBuildingSearchResponse(item);
-			results.add(buildingSearchResponse);
-		}
-		return results;
+		return buildingEntity.stream()
+				.map(entity -> buildingConverter.convertFromEntitytoBuildingSearchResponse(entity))
+				.collect(Collectors.toList());
 	}
 
 	private BuildingSearchBuilder convertToBuildingSearchBuilder(Map<String, Object> buildingSearch, List<String> buildingTypes) {
