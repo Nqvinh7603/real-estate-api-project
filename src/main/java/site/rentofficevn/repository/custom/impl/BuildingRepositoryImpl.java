@@ -1,9 +1,11 @@
 package site.rentofficevn.repository.custom.impl;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
+import site.rentofficevn.builder.BuildingSearchBuilder;
 import site.rentofficevn.constant.SystemConstant;
 import site.rentofficevn.repository.custom.BuildingRepositoryCustom;
 import site.rentofficevn.repository.entity.BuildingEntity;
@@ -20,26 +22,21 @@ public class BuildingRepositoryImpl	  implements BuildingRepositoryCustom {
     @PersistenceContext
     private EntityManager entityManager;
     @Override
-    public List<BuildingEntity> findBuilding(Map<String, Object> buildingSearch, List<String> buildingTypes) {
-        /*StringBuilder finalQuery = new StringBuilder(
-                "SELECT b.id, b.name, b.street, b.ward, b.districtid, " +
-                        "b.managername, b.managerphone, b.floorarea, " +
-                        "b.rentprice, b.rentpriceDescription, b.servicefee, " +
-                        "b.brokeragefee, b.numberofbasement from building b\n");*/
+    public List<BuildingEntity> findBuilding(BuildingSearchBuilder buildingSearchBuilder) {
         StringBuilder finalQuery = new StringBuilder(
                 "SELECT b.* from building b\n");
-        finalQuery.append(buildJoiningClause(buildingSearch, buildingTypes))
+        finalQuery.append(buildJoiningClause(buildingSearchBuilder))
                 .append(SystemConstant.WHERE_ONE_EQUAL_ONE)
-                .append(buildCommonClause(buildingSearch, buildingTypes))
-                .append(buildSpecialClause(buildingSearch, buildingTypes))
+                .append(buildCommonClause(buildingSearchBuilder))
+                .append(buildSpecialClause(buildingSearchBuilder))
                 .append(" GROUP BY b.id");
         return entityManager.createNativeQuery(finalQuery.toString(), BuildingEntity.class).getResultList();
         
     }
-    private String buildJoiningClause(Map<String, Object> buildingSearch, List<String> buildingTypes){
+    private String buildJoiningClause(BuildingSearchBuilder buildingSearchBuilder){
         StringBuilder sqlJoining = new StringBuilder();
-        Long staffId = MapUtils.getObject(buildingSearch, "staffid", Long.class);
-        String districtCode = MapUtils.getObject(buildingSearch, "districtcode", String.class);
+        Long staffId = buildingSearchBuilder.getStaffID();
+        String districtCode = buildingSearchBuilder.getDistrict();
 
         if(!CheckInputSearchUtils.isNullLong(staffId)){
             sqlJoining.append(" INNER JOIN assignmentbuilding as ab ON ab.buildingid = b.id INNER JOIN user as u ON ab.staffid = u.id");
@@ -47,40 +44,53 @@ public class BuildingRepositoryImpl	  implements BuildingRepositoryCustom {
         if(!CheckInputSearchUtils.isEmptyOrNullString(districtCode)){
             sqlJoining.append(" INNER JOIN district d ON d.id = b.districtid");
         }
-        if(buildingTypes != null && !buildingTypes.isEmpty()){
+        if(buildingSearchBuilder.getTypes() != null && buildingSearchBuilder.getTypes().size() > 0 ){
             sqlJoining.append(
                     " INNER JOIN buildingrenttype as br ON br.buildingid = b.id INNER JOIN renttype as r ON br.renttypeid = r.id");
         }
         return sqlJoining.toString();
     }
-    private String buildCommonClause(Map<String, Object> buildingSearch, List<String> buildingTypes){
+    private String buildCommonClause(BuildingSearchBuilder buildingSearchBuilder){
         StringBuilder sqlCommon = new StringBuilder();
-        for(Map.Entry<String, Object> item : buildingSearch.entrySet()){
-            if(!item.getKey().equals("buildingTypes") && !item.getKey().startsWith("rentarea") && !item.getKey().equals("districtcode") && !item.getKey().equals("staffid") && !item.getKey().startsWith("rentprice")){
-                String value = item.getValue().toString();
-                if(NumberUtils.isInteger(value)) {
-                    sqlCommon.append(" AND b.").append(item.getKey().toLowerCase()).append(" = ").append(Integer.parseInt(value));
-                }else if(!StringUtils.isNullOrEmpty(value)){
-                    sqlCommon.append(" AND b.").append(item.getKey().toLowerCase()).append(" LIKE '%").append(value).append("%'");
+        try{
+            Field[] fields = BuildingSearchBuilder.class.getDeclaredFields();
+            for(Field field : fields){
+                field.setAccessible(true);
+                String fieldName = field.getName();
+                if(!fieldName.equals("types")
+                        && !fieldName.startsWith("rentArea")
+                        && !fieldName.equals("district")
+                        && !fieldName.equals("staffID")
+                        && !fieldName.startsWith("rentPrice")){
+                    Object fieldValue = field.get(buildingSearchBuilder);
+                    if(fieldValue != null && fieldValue != "") {
+                        if (fieldValue instanceof String) {
+                            sqlCommon.append(" and LOWER(b." + fieldName + ") LIKE '%" + fieldValue.toString().toLowerCase() + "%'");
+                        } else if (fieldValue instanceof Integer) {
+                            sqlCommon.append(" and b." + fieldName + " = " + fieldValue);
+                        }
+                    }
                 }
             }
+        }catch(IllegalAccessException e){
+            e.printStackTrace();
         }
         return sqlCommon.toString();
     }
-    private String buildSpecialClause(Map<String, Object> buildingSearch, List<String> buildingTypes){
+    private String buildSpecialClause(BuildingSearchBuilder buildingSearchBuilder){
         StringBuilder sqlSpecial = new StringBuilder();
-        Long staffId = MapUtils.getObject(buildingSearch, "staffid", Long.class);
+        Long staffId = buildingSearchBuilder.getStaffID();
         if(!CheckInputSearchUtils.isNullLong(staffId)){
             sqlSpecial.append(" AND u.id = ").append(staffId);
         }
 
-        String districtCode = MapUtils.getObject(buildingSearch, "districtcode", String.class);
+        String districtCode = buildingSearchBuilder.getDistrict();
         if(!CheckInputSearchUtils.isEmptyOrNullString(districtCode)){
             sqlSpecial.append(" AND d.code LIKE '%").append(districtCode).append("%'");
         }
 
-        Integer rentPriceFrom = MapUtils.getObject(buildingSearch, "rentpricefrom", Integer.class);
-        Integer rentPriceTo = MapUtils.getObject(buildingSearch, "rentpriceto", Integer.class);
+        Integer rentPriceFrom = buildingSearchBuilder.getRentPriceFrom();
+        Integer rentPriceTo = buildingSearchBuilder.getRentPriceTo();
         if (!CheckInputSearchUtils.isNullInteger(rentPriceTo) || !CheckInputSearchUtils.isNullInteger(rentPriceFrom)) {
             if(!CheckInputSearchUtils.isNullInteger(rentPriceFrom)){
                 sqlSpecial.append(" AND b.rentprice >= ").append(rentPriceFrom);
@@ -90,8 +100,8 @@ public class BuildingRepositoryImpl	  implements BuildingRepositoryCustom {
             }
 
         }
-        Integer rentAreaFrom = MapUtils.getObject(buildingSearch, "rentareafrom", Integer.class);
-        Integer rentAreaTo = MapUtils.getObject(buildingSearch, "rentareato", Integer.class);
+        Integer rentAreaFrom = buildingSearchBuilder.getRentAreaFrom();
+        Integer rentAreaTo = buildingSearchBuilder.getRentAreaTo();
         if(!CheckInputSearchUtils.isNullInteger(rentAreaFrom) || !CheckInputSearchUtils.isNullInteger(rentAreaTo)){
             sqlSpecial.append(" AND EXISTS (SELECT * FROM rentarea ra WHERE ra.buildingid = b.id");
             if (!CheckInputSearchUtils.isNullInteger(rentAreaFrom)) {
@@ -102,9 +112,9 @@ public class BuildingRepositoryImpl	  implements BuildingRepositoryCustom {
             }
             sqlSpecial.append(")");
         }
-        if (buildingTypes != null && !buildingTypes.isEmpty()) {
+        if (buildingSearchBuilder.getTypes() != null && buildingSearchBuilder.getTypes().size() > 0 ) {
             sqlSpecial.append(" AND (");
-            sqlSpecial.append(buildingTypes.stream()
+            sqlSpecial.append(buildingSearchBuilder.getTypes().stream()
                     .map(type -> "r.code LIKE '%" + type + "%'")
                     .collect(Collectors.joining(" OR ")));
             sqlSpecial.append(")");
