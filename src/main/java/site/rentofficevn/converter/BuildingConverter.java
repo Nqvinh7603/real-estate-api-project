@@ -8,11 +8,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import site.rentofficevn.enums.DistrictsEnum;
 import site.rentofficevn.model.response.BuildingSearchResponse;
-import site.rentofficevn.repository.DistrictRepository;
 import site.rentofficevn.repository.RentAreaRepository;
 import site.rentofficevn.repository.entity.BuildingEntity;
-import site.rentofficevn.repository.entity.DistrictEntity;
 import site.rentofficevn.repository.entity.RentAreaEntity;
 
 
@@ -21,8 +20,7 @@ public class BuildingConverter {
 
 	@Autowired
 	private ModelMapper modelMapper;
-	@Autowired
-	private DistrictRepository districtRepository ;
+
 	@Autowired
 	private RentAreaRepository rentAreaRepository;
 	
@@ -31,7 +29,8 @@ public class BuildingConverter {
 		BuildingSearchResponse buildingSearchResponse = modelMapper.map(buildingEntity, BuildingSearchResponse.class);
 
 		//Xử lý District
-		buildingSearchResponse.setAddress(buildingEntity.getStreet() + " - " + buildingEntity.getWard() + " - " + buildingEntity.getDistrict().getName());
+		DistrictsEnum district = DistrictsEnum.valueOf(buildingEntity.getDistrictCode());
+		buildingSearchResponse.setAddress(buildingEntity.getStreet() + " - " + buildingEntity.getWard() + " - " + district.getDistrictValue() );
 
 		//Xử lý rent area -> By Stream API
 		List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findByBuildingId(buildingEntity.getId());
