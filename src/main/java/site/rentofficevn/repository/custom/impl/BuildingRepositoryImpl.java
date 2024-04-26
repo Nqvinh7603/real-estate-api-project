@@ -13,6 +13,7 @@ import site.rentofficevn.utils.CheckInputSearchUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 @Repository
 public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
@@ -22,14 +23,20 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
 
     @Override
     public List<BuildingEntity> findBuilding(BuildingSearchBuilder buildingSearchBuilder) {
-        StringBuilder finalQuery = new StringBuilder(
-                "SELECT b.* from building b\n");
-        finalQuery.append(buildJoiningClause(buildingSearchBuilder))
-                .append(SystemConstant.WHERE_ONE_EQUAL_ONE)
-                .append(buildCommonClause(buildingSearchBuilder))
-                .append(buildSpecialClause(buildingSearchBuilder))
-                .append(" GROUP BY b.id");
-        return entityManager.createNativeQuery(finalQuery.toString(), BuildingEntity.class).getResultList();
+        try {
+            StringBuilder finalQuery = new StringBuilder(
+                    "SELECT b.* from building b\n");
+            finalQuery.append(buildJoiningClause(buildingSearchBuilder))
+                    .append(SystemConstant.WHERE_ONE_EQUAL_ONE)
+                    .append(buildCommonClause(buildingSearchBuilder))
+                    .append(buildSpecialClause(buildingSearchBuilder))
+                    .append(" GROUP BY b.id");
+            Query query = entityManager.createNativeQuery(finalQuery.toString(), BuildingEntity.class);
+            return query.getResultList();
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
 
     }
 
@@ -56,7 +63,7 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
                     Object fieldValue = field.get(buildingSearchBuilder);
                     if (fieldValue != null && fieldValue != "") {
                         if (fieldValue instanceof String) {
-                            sqlCommon.append(" and LOWER(b." + fieldName + ") LIKE '%" + fieldValue.toString().toLowerCase() + "%'");
+                            sqlCommon.append(" and b." + fieldName.toLowerCase() + " LIKE '%" + fieldValue+ "%'");
                         } else if (fieldValue instanceof Integer) {
                             sqlCommon.append(" and b." + fieldName + " = " + fieldValue);
                         }

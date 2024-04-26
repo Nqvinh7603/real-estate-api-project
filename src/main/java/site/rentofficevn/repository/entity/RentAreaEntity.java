@@ -13,7 +13,7 @@ public class RentAreaEntity  {
 	private Integer value;
 
 	@ManyToOne
-	@JoinColumn(name = "buildingid")
+	@JoinColumn(name = "buildingid", nullable = false)
 	private BuildingEntity building;
 
 	public BuildingEntity getBuilding() {

@@ -18,7 +18,7 @@ public class BuildingEntity{
 	@Column(name = "ward")
 	private String ward;
 	@Column(name = "district")
-	private String districtCode;
+	private String district;
 	@Column(name = "floorarea")
 	private Integer floorArea;
 	@Column(name = "numberofbasement")
@@ -36,8 +36,7 @@ public class BuildingEntity{
 	@Column(name = "brokeragefee")
 	private BigDecimal brokerageFee;
 
-
-	@OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "building")
 	private List<RentAreaEntity> rentAreas;
 
 	public List<RentAreaEntity> getRentAreas() {
@@ -131,11 +130,11 @@ public class BuildingEntity{
 		this.id = id;
 	}
 
-	public String getDistrictCode() {
-		return districtCode;
+	public String getDistrict() {
+		return district;
 	}
 
-	public void setDistrictCode(String districtCode) {
-		this.districtCode = districtCode;
+	public void setDistrictCode(String district) {
+		this.district = district;
 	}
 }

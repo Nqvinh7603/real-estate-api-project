@@ -29,8 +29,17 @@ public class BuildingConverter {
 		BuildingSearchResponse buildingSearchResponse = modelMapper.map(buildingEntity, BuildingSearchResponse.class);
 
 		//Xử lý District
-		DistrictsEnum district = DistrictsEnum.valueOf(buildingEntity.getDistrictCode());
-		buildingSearchResponse.setAddress(buildingEntity.getStreet() + " - " + buildingEntity.getWard() + " - " + district.getDistrictValue() );
+		String districtName = "";
+		String testName = buildingEntity.getDistrict();
+		if (testName != null) {
+			for (DistrictsEnum district : DistrictsEnum.values()) {
+				if (testName.equals(district.name())) {
+					districtName = district.getDistrictValue();
+					break; // Kết thúc vòng lặp khi tìm thấy tên quận
+				}
+			}
+		}
+		buildingSearchResponse.setAddress(buildingEntity.getStreet() + " - " + buildingEntity.getWard() + " - " + districtName);
 
 		//Xử lý rent area -> By Stream API
 		List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findByBuildingId(buildingEntity.getId());
@@ -38,16 +47,7 @@ public class BuildingConverter {
 				.map(rentAreaEntity -> String.valueOf(rentAreaEntity.getValue())).collect(Collectors.joining(", "));
 		buildingSearchResponse.setEmptyArea(rentAreaString);
 
-		/*Cach 2: Dùng StringUtils
-		List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findByBuildingId(buildingEntity.getId());
-		String rentAreaString = StringUtils.join(
-				rentAreaEntities.stream().map(rentAreaEntity -> String.valueOf(rentAreaEntity.getValue())).toArray(),
-				", ");
-		if (!rentAreaString.isEmpty()) {
-			rentAreaString = StringUtils.removeEnd(rentAreaString, ", ");
-		}
-		buildingSearchResponse.setEmptyArea(rentAreaString);*/
-
 		return buildingSearchResponse;
 	}
+
 }
