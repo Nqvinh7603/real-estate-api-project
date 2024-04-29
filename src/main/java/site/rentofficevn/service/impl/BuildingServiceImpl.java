@@ -31,7 +31,6 @@ public class BuildingServiceImpl implements BuildingService {
 														List<String> buildingTypes)  {
 		List<BuildingSearchResponse> results = new ArrayList<>();
 		BuildingSearchBuilder buildingSearchBuilder = convertToBuildingSearchBuilder(buildingSearch, buildingTypes);
-
 		try {
 			List<BuildingEntity> buildingEntities = buildingRespository.findBuilding(buildingSearchBuilder);
 			return buildingEntities.stream()
