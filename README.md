@@ -19,4 +19,6 @@ Especially, in this project, I have utilized tools such as Generic, Reflection, 
 - Runnable, lengthy code, not optimized
 2. Apply Map
 - Runs well, more optimized code, builds MapUtils function, uses Jdbc so the amount of code is still large
-### Updating...
+3. Apply Buider Pattern, Jpa
+- Runs well, code is optimized, more concise, learned new techniques
+### The project comes from the PTN GLOBAL NEW TALENT  program updating...
