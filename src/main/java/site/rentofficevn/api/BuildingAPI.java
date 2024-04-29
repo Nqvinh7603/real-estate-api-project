@@ -29,7 +29,7 @@ public class BuildingAPI {
 		return null;
 	}
 
-	// Exercise 2 -> HashMap
+	// findBuilding -> HashMap
 	@GetMapping
 	public List<BuildingSearchResponse> findBuilding(@RequestParam(required = false) Map<String, Object> buildingSearch,
 			@RequestParam(required = false) List<String> buildingTypes) throws SQLException {
