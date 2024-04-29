@@ -4,45 +4,16 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class BuildingSearchResponse {
-	private String name;
-	private String address;
-	private Integer floorArea; // diện tích sàn
-	private String emptyArea; // diện tích trống
-	private String rentCost; // giá thuê
-	private String serviceFee; // phí dịch vụ
-	private BigDecimal brokerageFee;// phí môi giới
-	private Integer numberOfBasement;
-	/*private Date createdDate;
-	private Date modifiedDate;
-	private String createdBy;
-	private String modifiedBy;*/
-	/*private String rentArea; // đẩy ra dạng value1,value2*/
-	private String managerName;
-	private String managerPhone;
-
-	public String getManagerName() {
-		return managerName;
-	}
-
-	public void setManagerName(String managerName) {
-		this.managerName = managerName;
-	}
-
-	public String getManagerPhone() {
-		return managerPhone;
-	}
-
-	public void setManagerPhone(String managerPhone) {
-		this.managerPhone = managerPhone;
-	}
-
-	/*public String getRentArea() {
-		return rentArea;
-	}
-
-	public void setRentArea(String rentArea) {
-		this.rentArea = rentArea;
-	}*/
+	private Long id;
+	private String name;            // tên sản phẩm
+	private String address;         // địa chỉ
+	private String managerName;     // tên quản lí
+	private Integer managerPhone;   // số điện thoại
+	private String floorArea;       // diện tích sàn
+	private String emptyArea;       // diện tích trống
+	private String rentCost;        // giá thuê
+	private String serviceFee;      // phí dịch vụ
+	private String brokerageFee;    // phí môi giới
 
 	public String getName() {
 		return name;
@@ -60,11 +31,27 @@ public class BuildingSearchResponse {
 		this.address = address;
 	}
 
-	public Integer getFloorArea() {
+	public String getManagerName() {
+		return managerName;
+	}
+
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
+
+	public Integer getManagerPhone() {
+		return managerPhone;
+	}
+
+	public void setManagerPhone(Integer managerPhone) {
+		this.managerPhone = managerPhone;
+	}
+
+	public String getFloorArea() {
 		return floorArea;
 	}
 
-	public void setFloorArea(Integer floorArea) {
+	public void setFloorArea(String floorArea) {
 		this.floorArea = floorArea;
 	}
 
@@ -92,51 +79,19 @@ public class BuildingSearchResponse {
 		this.serviceFee = serviceFee;
 	}
 
-	public BigDecimal getBrokerageFee() {
+	public String getBrokerageFee() {
 		return brokerageFee;
 	}
 
-	public void setBrokerageFee(BigDecimal brokerageFee) {
+	public void setBrokerageFee(String brokerageFee) {
 		this.brokerageFee = brokerageFee;
 	}
 
-	/*public Date getCreatedDate() {
-		return createdDate;
+	public Long getId() {
+		return id;
 	}
 
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public Date getModifiedDate() {
-		return modifiedDate;
-	}
-
-	public void setModifiedDate(Date modifiedDate) {
-		this.modifiedDate = modifiedDate;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public String getModifiedBy() {
-		return modifiedBy;
-	}
-
-	public void setModifiedBy(String modifiedBy) {
-		this.modifiedBy = modifiedBy;
-	}
-*/
-	public Integer getNumberOfBasement() {
-		return numberOfBasement;
-	}
-
-	public void setNumberOfBasement(Integer numberOfBasement) {
-		this.numberOfBasement = numberOfBasement;
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

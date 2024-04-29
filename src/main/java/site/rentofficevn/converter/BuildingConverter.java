@@ -8,11 +8,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import site.rentofficevn.enums.DistrictsEnum;
 import site.rentofficevn.model.response.BuildingSearchResponse;
-import site.rentofficevn.repository.DistrictRepository;
 import site.rentofficevn.repository.RentAreaRepository;
 import site.rentofficevn.repository.entity.BuildingEntity;
-import site.rentofficevn.repository.entity.DistrictEntity;
 import site.rentofficevn.repository.entity.RentAreaEntity;
 
 
@@ -21,20 +20,26 @@ public class BuildingConverter {
 
 	@Autowired
 	private ModelMapper modelMapper;
-	@Autowired
-	private DistrictRepository districtRepository ;
+
 	@Autowired
 	private RentAreaRepository rentAreaRepository;
-
-	//Áp dụng cách sử dụng ModelMapper để convert
+	
 	public BuildingSearchResponse convertFromEntitytoBuildingSearchResponse(BuildingEntity buildingEntity) {
 
 		BuildingSearchResponse buildingSearchResponse = modelMapper.map(buildingEntity, BuildingSearchResponse.class);
 
 		//Xử lý District
-
-		buildingSearchResponse.setAddress(buildingEntity.getStreet() + " - " + buildingEntity.getWard() + " - " + buildingEntity.getDistrict().getName());
-
+		String districtName = "";
+		String testName = buildingEntity.getDistrict();
+		if (testName != null) {
+			for (DistrictsEnum district : DistrictsEnum.values()) {
+				if (testName.equals(district.name())) {
+					districtName = district.getDistrictValue();
+					break; // Kết thúc vòng lặp khi tìm thấy tên quận
+				}
+			}
+		}
+		buildingSearchResponse.setAddress(buildingEntity.getStreet() + " - " + buildingEntity.getWard() + " - " + districtName);
 
 		//Xử lý rent area -> By Stream API
 		List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findByBuildingId(buildingEntity.getId());
@@ -42,16 +47,7 @@ public class BuildingConverter {
 				.map(rentAreaEntity -> String.valueOf(rentAreaEntity.getValue())).collect(Collectors.joining(", "));
 		buildingSearchResponse.setEmptyArea(rentAreaString);
 
-		// Cach 2: Dùng StringUtils
-		/*List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findByBuildingId(buildingEntity.getId());
-		String rentAreaString = StringUtils.join(
-				rentAreaEntities.stream().map(rentAreaEntity -> String.valueOf(rentAreaEntity.getValue())).toArray(),
-				", ");
-		if (!rentAreaString.isEmpty()) {
-			rentAreaString = StringUtils.removeEnd(rentAreaString, ", ");
-		}
-		buildingSearchResponse.setEmptyArea(rentAreaString);*/
-
 		return buildingSearchResponse;
 	}
+
 }
