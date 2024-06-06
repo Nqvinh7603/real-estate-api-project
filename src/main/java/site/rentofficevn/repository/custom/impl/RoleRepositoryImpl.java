@@ -4,9 +4,9 @@ import org.springframework.stereotype.Repository;
 import site.rentofficevn.repository.custom.RoleRepositoryCusstom;
 import site.rentofficevn.repository.entity.RoleEntity;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 
 @Repository
 public class RoleRepositoryImpl implements RoleRepositoryCusstom {

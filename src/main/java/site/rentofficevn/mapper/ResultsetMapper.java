@@ -3,22 +3,15 @@ package site.rentofficevn.mapper;
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.beanutils.BeanUtils;
-
-import site.rentofficevn.annotation.Column;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
+import site.rentofficevn.annotation.Column;
+
+import java.lang.reflect.InvocationTargetException;
+
 public class ResultsetMapper<T> {
 	public List<T> maprow(ResultSet rs, Class<T> tClass) {
 		List<T> results = new ArrayList<>();

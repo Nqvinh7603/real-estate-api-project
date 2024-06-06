@@ -1,18 +1,15 @@
 package site.rentofficevn.repository.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "role")
-public class RoleEntity {
+public class RoleEntity extends BaseEntity {
 
     private static final long serialVersionUID = -6525302831793188081L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -23,11 +20,10 @@ public class RoleEntity {
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private List<UserEntity> users = new ArrayList<>();
 
-   /* @OneToMany(mappedBy = "roles")
-    private List<UserRoleEntity> userRoles = new ArrayList<>();  public String getName() {
+    public String getName() {
         return name;
     }
-*/
+
     public void setName(String name) {
         this.name = name;
     }
@@ -47,19 +43,4 @@ public class RoleEntity {
     public void setUsers(List<UserEntity> users) {
         this.users = users;
     }
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /*public List<UserRoleEntity> getUserRoles() {
-        return userRoles;
-    }
-
-    public void setUserRoles(List<UserRoleEntity> userRoles) {
-        this.userRoles = userRoles;
-    }*/
 }

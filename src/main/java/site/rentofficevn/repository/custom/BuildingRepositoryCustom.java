@@ -10,5 +10,4 @@ import site.rentofficevn.repository.entity.BuildingEntity;
 
 public interface BuildingRepositoryCustom {
 	List<BuildingEntity> findBuilding(BuildingSearchBuilder buildingSearchBuilder);
-
 }

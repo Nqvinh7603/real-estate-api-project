@@ -1,20 +1,15 @@
 package site.rentofficevn.repository.entity;
 
+import jakarta.persistence.*;
 
-import javax.persistence.*;
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
-public class UserEntity {
+@Table(name = "user")
+public class UserEntity extends BaseEntity{
 
 	private static final long serialVersionUID = -4988455421375043688L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
 
 	@Column(name = "username", nullable = false, unique = true)
 	private String userName;
@@ -33,12 +28,10 @@ public class UserEntity {
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_role",
-			joinColumns = @JoinColumn(name = "user_id", nullable = false),
-			inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false))
+			joinColumns = @JoinColumn(name = "userid", nullable = false),
+			inverseJoinColumns = @JoinColumn(name = "roleid", nullable = false))
 	private List<RoleEntity> roles = new ArrayList<>();
 
-	/*@OneToMany(mappedBy = "users")
-	private List<UserRoleEntity> userRoles = new ArrayList<>();*/
 	public String getUserName() {
 		return userName;
 	}
@@ -87,19 +80,4 @@ public class UserEntity {
 		this.email = email;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	/*public List<UserRoleEntity> getUserRoles() {
-		return userRoles;
-	}
-
-	public void setUserRoles(List<UserRoleEntity> userRoles) {
-		this.userRoles = userRoles;
-	}*/
 }

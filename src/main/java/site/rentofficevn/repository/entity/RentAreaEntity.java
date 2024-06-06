@@ -1,14 +1,10 @@
 package site.rentofficevn.repository.entity;
 
-
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "rentarea")
-public class RentAreaEntity  {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class RentAreaEntity extends BaseEntity {
 	@Column(name = "value")
 	private Integer value;
 
@@ -31,11 +27,4 @@ public class RentAreaEntity  {
 		this.value = value;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 }

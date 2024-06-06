@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import site.rentofficevn.repository.custom.RentAreaRepositoryCustom;
 import site.rentofficevn.repository.entity.RentAreaEntity;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 @Repository
 public class RentAreaRepositoryImpl implements RentAreaRepositoryCustom {

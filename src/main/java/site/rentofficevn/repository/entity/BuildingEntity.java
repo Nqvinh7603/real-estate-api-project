@@ -1,16 +1,15 @@
 package site.rentofficevn.repository.entity;
 
-import javax.persistence.*;
+
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "building")
-public class BuildingEntity{
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class BuildingEntity extends BaseEntity {
+
 	@Column(name = "name")
 	private String name;
 	@Column(name = "street")
@@ -120,14 +119,6 @@ public class BuildingEntity{
 	}
 	public void setBrokerageFee(BigDecimal brokerageFee) {
 		this.brokerageFee = brokerageFee;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getDistrict() {

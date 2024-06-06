@@ -11,9 +11,9 @@ import site.rentofficevn.repository.custom.BuildingRepositoryCustom;
 import site.rentofficevn.repository.entity.BuildingEntity;
 import site.rentofficevn.utils.CheckInputSearchUtils;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 
 @Repository
 public class BuildingRepositoryImpl implements BuildingRepositoryCustom {

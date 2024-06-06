@@ -4,8 +4,8 @@ import org.springframework.stereotype.Repository;
 import site.rentofficevn.repository.custom.UserRepositoryCustom;
 import site.rentofficevn.repository.entity.UserEntity;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
@@ -15,7 +15,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     @Override
     public List<UserEntity> findByRole(String roleCode) {
         //JPQL
-        String jqpl = "FROM UserEntity where roles.code= ?1";
+        String jqpl = "select u from UserEntity u join u.roles r where r.code = ?1";
         return entityManager.createQuery(jqpl, UserEntity.class)
                 .setParameter(1, roleCode)
                 .getResultList();
